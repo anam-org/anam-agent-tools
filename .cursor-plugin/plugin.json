@@ -1,9 +1,11 @@
 {
   "name": "anam",
+  "displayName": "Anam",
   "version": "1.0.0",
   "description": "Build Anam personas (real-time AI video avatars), add them to your app and review their conversations, through Anam's MCP server.",
   "author": {
-    "name": "Anam"
+    "name": "Anam",
+    "email": "support@anam.ai"
   },
   "homepage": "https://anam.ai",
   "repository": "https://github.com/anam-org/anam-agent-tools",
