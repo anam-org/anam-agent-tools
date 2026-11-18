@@ -23,7 +23,7 @@ use the connector's tools for one task.
 | `support-agent`         | Set up a support agent that answers from help articles and says how to reach the team.         |
 | `tutor`                 | Set up a tutor for a subject, level or language, for learners aged 16 and over.                |
 | `interview-practice`    | Set up a mock interviewer, or a screening interviewer whose interviews a person reviews.       |
-| `add-knowledge`         | Give a persona knowledge from web pages, files or pasted text, and test it.                    |
+| `add-knowledge`         | Give a persona knowledge from web pages, public files or pasted text, and test it.             |
 | `pick-voice-and-avatar` | Find avatars and voices by language, accent and look, and apply them.                          |
 | `improve-persona`       | Find where callers got stuck in recent sessions and fix the prompt, greeting or knowledge.     |
 | `review-sessions`       | Report on a period's sessions: volume, errors, slow replies, failed tool calls and quotes.     |

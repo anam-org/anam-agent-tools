@@ -21,12 +21,8 @@ personas can share a folder.
      page to add.
    - Text the user pastes or writes with you, up to 500,000 characters per
      document.
-   - A file on the user's computer. If you can read it here (a file they
-     attached, or one they name in the project you're working in) and
-     it's text, Markdown, CSV or JSON, send its text with
-     `anam_knowledge_document_create_from_text`. Read only the file they
-     name. For a PDF, a DOCX or anything else you can't read as text, ask
-     them to give a public URL or upload it in Anam Lab.
+   - A file on the user's computer: this connection can't read it. Ask them
+     to paste its text, give a public URL, or upload it in Anam Lab.
 
 ## 2. Check the allowance and get a yes
 
@@ -57,31 +53,25 @@ once they agree. Their app may also ask them to approve each upload.
 ## 4. Attach the folder
 
 A persona searches its folders through knowledge tools, as in Lab's Build
-page. `anam_persona_knowledge_add` adds the folder to the first knowledge
-tool the persona already has, and every other persona using that tool gets
-the folder too. An internal document could become searchable by a public
-receptionist that way, so check first:
+page, and personas can share a tool. Adding a folder to a shared tool
+would give it to every persona using that tool, so an internal document
+could become searchable by a public receptionist. Give this persona a
+knowledge tool of its own for the folder instead:
 
-1. Call `anam_persona_get` and note its `toolIds` and `updatedAt`. Its
-   knowledge tools are the entries in `tools` with `type` `server` and
-   `subtype` `rag`. Call `anam_tool_get` with each one's `_toolId` and
-   read its `usageCount`.
-2. If the persona has no knowledge tool, or none has a `usageCount` above
-   1, call `anam_persona_knowledge_add` with `personaId` and `folderIds`.
-   It keeps the persona's other tools.
-3. If any has a `usageCount` above 1, other personas share it. Tell the
-   user how many, and ask which they want:
-   - Only this persona gets the folder. Don't call
-     `anam_persona_knowledge_add`. Create a knowledge tool for the folder
-     with `anam_tool_create` (`name`, `description`, `type` `SERVER_RAG`
-     and `config` with `documentFolderIds` holding the folder's ID).
-     Then call `anam_persona_update` with the persona's `id`, `toolIds`
-     set to every ID it had plus the new tool's, and `expectedUpdatedAt`
-     set to the `updatedAt` you read. A 409 means the persona changed:
-     read it again and redo this step.
-   - Every persona sharing the tool gets the folder. Call
-     `anam_persona_knowledge_add` only with their yes to that wider
-     audience.
+1. Call `anam_persona_get` and note its `toolIds` and `updatedAt`.
+   `toolIds` always lists every attached tool, even when the result
+   leaves some out of `tools`.
+2. Create a knowledge tool with `anam_tool_create`: a `name` after the
+   folder, a `description` of what the folder answers, `type`
+   `SERVER_RAG`, and `config` with `documentFolderIds` holding the
+   folder's ID.
+3. Call `anam_persona_update` with the persona's `id`, `toolIds` set to
+   every ID it had plus the new tool's, and `expectedUpdatedAt` set to
+   the `updatedAt` you read. A 409 means the persona changed: read it
+   again and redo this step.
+
+Don't add the folder to a knowledge tool the persona already has: other
+personas may use it.
 
 ## 5. Test it
 
@@ -95,7 +85,24 @@ receptionist that way, so check first:
 
 ## Other changes
 
-- Remove a folder from a persona: `anam_persona_knowledge_remove`.
+- Remove a folder from a persona. Call `anam_persona_get` for its
+  `toolIds` and `updatedAt`, then `anam_tool_get` for each ID. The ones
+  to change have `type` `SERVER_RAG` and list the folder in their
+  config.
+  - If each of those has a `usageCount` of 1, only this persona uses
+    them: call `anam_persona_knowledge_remove` with `personaId` and
+    `folderIds`.
+  - If any has a `usageCount` above 1, other personas share it, and
+    `anam_persona_knowledge_remove` would take the folder away from all
+    of them. Leave the shared tool as it is. If it lists other folders
+    this persona should keep, create a tool for those with
+    `anam_tool_create` (`name`, `description`, `type` `SERVER_RAG`,
+    `config` with `documentFolderIds`). Then call `anam_persona_update`
+    with the persona's `id`, `toolIds` set to its list without the
+    shared tool's ID and with the new tool's, and `expectedUpdatedAt`
+    set to the `updatedAt` you read. Use
+    `anam_persona_knowledge_remove` on a shared tool only when the user
+    says every persona using it should lose the folder.
 - Replace an out-of-date document: add the new one, then delete the old one
   with `anam_knowledge_document_delete` once the user agrees.
 

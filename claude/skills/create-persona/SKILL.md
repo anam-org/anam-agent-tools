@@ -32,6 +32,12 @@ If the role is a receptionist, support agent, tutor or interview practice,
 the `ai-receptionist`, `support-agent`, `tutor` and `interview-practice`
 skills cover those in more detail.
 
+If the persona will interview real job candidates, for screening or
+hiring, don't create it here by any path below, whether a brief, the
+`interviewer` template or the user's own prompt. Use the
+`interview-practice` skill, which sets up what candidates are told and
+who makes the decision before any persona or link exists.
+
 ## 3. Choose how to create it
 
 Pick one path:

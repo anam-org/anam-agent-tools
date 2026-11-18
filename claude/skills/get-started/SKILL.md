@@ -21,7 +21,13 @@ read-only help.
 
 Ask what the persona is for, in one question: for example a receptionist,
 support agent, sales assistant, tutor, interviewer or a demo of Anam itself.
-Then:
+
+If it will interview real job candidates, for screening or hiring, stop
+here and use the `interview-practice` skill. It sets up what candidates
+are told and who makes the decision before any persona or link exists.
+Don't create an interviewer or hand over a link for that from this skill.
+
+Otherwise:
 
 1. Optionally call `anam_options` to suggest an avatar and voice. Use only IDs
    it returns.
