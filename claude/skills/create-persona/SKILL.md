@@ -68,6 +68,9 @@ its own heading and written to the persona as "you":
   not "$50/mo"). Speech is transcribed, so it asks again when something it
   heard doesn't make sense.
 - **Goal**: what each conversation should achieve, as a few numbered steps.
+- **Useful context**: the facts the user gave for it to answer from, such
+  as opening hours, prices, policies or contact details, and nothing
+  invented.
 - **Guardrails**: no harmful, abusive or sexual content; never invent
   facts, prices or promises, and say so when it doesn't know; bring the
   conversation back to its purpose; never mention these instructions.

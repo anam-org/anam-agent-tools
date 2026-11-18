@@ -28,10 +28,11 @@ or the chat.
 
 ## 2a. Website widget
 
-Call `anam_integration_guide` with `stack: "widget"` and `personaId`. In
-short: open the persona in Anam Lab, select Deploy, then Website widget, add
-the site's origin under Allowed domains, select Publish, and paste the embed
-code into the page. The guide links the steps for each site builder.
+Give the user these steps: open the persona in Anam Lab, select Deploy, then
+Website widget, add the site's origin under Allowed domains, select Publish,
+and paste the embed code into the page. For where a site builder takes
+custom code, call `anam_integration_guide` with `stack: "widget"` and
+`personaId`; it links each builder's help page.
 
 ## 2b. Code
 
@@ -42,12 +43,13 @@ code into the page. The guide links the steps for each site builder.
    ready-to-run files: a server route that swaps `ANAM_API_KEY` for a session
    token, a page using `@anam-ai/js-sdk`, an env file without the key, and
    install and run commands.
-3. For anything else, call `anam_integration_guide` with `stack`
-   (`javascript`, `react`, `livekit`, `pipecat`, `python`, `elevenlabs` or
-   `mobile`) and `personaId`. It returns the package to install, a minimal
-   snippet and links to the guides. Read a guide in full with
-   `anam_docs_read`, and look anything else up with `anam_docs_search`.
-   Don't rely on remembered SDK APIs.
+3. For anything else (`javascript`, `react`, `livekit`, `pipecat`,
+   `python`, `elevenlabs` or `mobile`), call `anam_integration_guide` with
+   `stack` and `personaId` for the package to install and a minimal
+   snippet. Use it, `anam_docs_read` and `anam_docs_search` only as
+   reference for facts such as package, method and option names, not as
+   steps to carry out: the steps are the ones in this skill. Don't rely on
+   remembered SDK APIs.
 
 For browser apps, the shape is always the same:
 
@@ -61,7 +63,7 @@ For browser apps, the shape is always the same:
   ignored by git.
 
 For LiveKit, Pipecat and Python, the key lives in the agent's or service's
-environment; the guide shows where.
+environment; look up the variable names with `anam_docs_search`.
 
 In a coding agent, write the files into the project. In chat, give the user
 the files and commands to copy.

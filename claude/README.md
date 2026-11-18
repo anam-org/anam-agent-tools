@@ -70,23 +70,45 @@ or agents, so nothing from it runs on your computer.
   to add, search terms, and questions about Anam's documentation. Claude
   receives what the tools return, such as personas, knowledge, share links,
   session transcripts and usage.
-- **Anam's processors.** To answer some tool calls, Anam's server sends data
-  on to other services:
-  - Designing a persona from a description (the `anam_persona_from_brief`
-    tool, which `create-persona`, `tutor`, `interview-practice` and
-    `pick-voice-and-avatar` can use)
-    sends that description to Google's Gemini model, through Vercel's AI
-    Gateway, to write the persona's prompt and greeting.
-  - Documentation searches go to Mintlify, which hosts Anam's docs. Send
-    documentation terms, not customer content.
-  - Adding a web page or file as knowledge makes Anam's server fetch that
-    public URL.
-  - Each tool call is recorded in PostHog, Anam's product analytics: the
-    tool's name, whether it worked, how long it took, the size of the result,
-    the names (not the values) of the arguments, the persona's ID if there is
-    one, the kind of connection and access, and the connected app (its host,
-    a hash of its client ID and its name), with your Anam organization and
-    user IDs.
+- **Anam's processors.** Anam's server passes some of that data on. These
+  are the destinations the repository shows for this connector's tools:
+  - **Persona design.** The `anam_persona_from_brief` tool (which
+    `create-persona`, `tutor`, `interview-practice` and
+    `pick-voice-and-avatar` can use) sends the description to Google's
+    Gemini model, through Vercel's AI Gateway, to write the persona's prompt
+    and greeting.
+  - **Knowledge.** Pasted text and the content of a page or file fetched
+    from a URL you give are stored as a document in Anam's Cloudflare R2
+    storage. Anam's knowledge service (rag-service, run by Anam in its own
+    regional clusters) then splits it into chunks, turns them into
+    embeddings and keeps them for search. Its default embedding model is
+    OpenAI's `text-embedding-3-large` through Azure OpenAI; Anam can choose
+    `voyage-4` for an organization's new uploads instead. Knowledge searches
+    send the search text to the same service. Fetching a URL means Anam's
+    server requests it from that site.
+  - **Documentation.** Searches go to Mintlify, which hosts Anam's docs.
+    Send documentation terms, not customer content.
+  - **Session moderation.** After people use a persona, Anam's
+    acceptable-use check can send the system prompt its sessions used to
+    Google's Gemini model, with Anthropic's Claude Haiku as a fallback, both
+    through Vercel's AI Gateway. Flagged prompts, with the organization's
+    name, are posted to Anam's internal Slack for review. This runs on
+    sessions, whichever app created the persona.
+  - **Product analytics (PostHog).** Each tool call sends an event with
+    the tool's name, whether it worked, how long it took, the size of the
+    result, the names (not the values) of its arguments, the persona's ID if
+    there is one, the kind of connection and access, and the connected app:
+    the kind of client, a hash of its client ID, its web host when it
+    signs in with a client metadata document, the publisher's name when
+    Anam verified it, and its name as one of a fixed set of labels or
+    "other". Your Anam organization and user IDs go with it. Some actions
+    send their own events too: creating a share link sends its ID, type,
+    usage limit, expiry and persona ID; creating a persona sends a
+    `persona_created` event with its ID and the tool that made it; using a
+    starter prompt sends the prompt's name and which arguments were filled
+    in; and connecting, the first request, disconnecting, refusing consent
+    and a duplicate connection each send an event with the same app
+    details and access level.
 - **Code for your app.** `add-to-website` writes code into your project or
   hands it to you. That code is yours to run: its server calls Anam's API
   with your own Anam API key to start sessions, and every session uses your
