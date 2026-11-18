@@ -41,11 +41,12 @@ once they agree. Their app may also ask them to approve each upload.
    (a clear `name`, such as "Clinic FAQ"), unless the user names an
    existing one from `anam_knowledge_folder_list`. A document added to an
    existing folder is searchable at once by every persona that already
-   uses the folder. So before reusing one, call `anam_tool_list` and
-   look at the `SERVER_RAG` tools whose config lists the folder's ID. If
-   any has a `usageCount` above 0, tell the user how many personas will
-   be able to answer from the new document, and add it only when they
-   agree.
+   uses the folder. So before adding anything to one, read every page of
+   `anam_tool_list` (`perPage` 100, then each next `page` until `meta`
+   shows no more) and find the tools with `type` `SERVER_RAG` whose
+   config lists the folder's ID. Add up their `usageCount` values. If the
+   total is above 0, tell the user how many personas will be able to
+   answer from the new document, and add it only when they agree.
 2. For each source, call `anam_knowledge_document_create_from_url` (`folderId`,
    `url`, optional `title`) or `anam_knowledge_document_create_from_text`
    (`folderId`, `title`, `text`).
@@ -55,25 +56,32 @@ once they agree. Their app may also ask them to approve each upload.
 
 ## 4. Attach the folder
 
-A persona searches its folders through a knowledge tool, as in Lab's Build
-page. `anam_persona_knowledge_add` adds the folder to the knowledge tool
-the persona already has, and every other persona using that tool gets the
-folder too. An internal document could become searchable by a public
+A persona searches its folders through knowledge tools, as in Lab's Build
+page. `anam_persona_knowledge_add` adds the folder to the first knowledge
+tool the persona already has, and every other persona using that tool gets
+the folder too. An internal document could become searchable by a public
 receptionist that way, so check first:
 
-1. Call `anam_persona_get`. If its `tools` include a `SERVER_RAG` tool,
-   call `anam_tool_get` for it.
-2. A `usageCount` above 1 means other personas share the tool. Tell the
+1. Call `anam_persona_get` and note its `toolIds` and `updatedAt`. Its
+   knowledge tools are the entries in `tools` with `type` `server` and
+   `subtype` `rag`. Call `anam_tool_get` with each one's `_toolId` and
+   read its `usageCount`.
+2. If the persona has no knowledge tool, or none has a `usageCount` above
+   1, call `anam_persona_knowledge_add` with `personaId` and `folderIds`.
+   It keeps the persona's other tools.
+3. If any has a `usageCount` above 1, other personas share it. Tell the
    user how many, and ask which they want:
-   - Every persona sharing the tool gets the folder. Go on only with
-     their yes to that wider audience.
-   - Only this persona gets it. Call `anam_persona_update` with `toolIds`
-     set to the persona's current list without the shared tool's ID,
-     then pass `anam_persona_knowledge_add` the folders that tool
-     searched as well as the new one. With no knowledge tool attached,
-     it creates one for this persona alone.
-3. Call `anam_persona_knowledge_add` with `personaId` and `folderIds`. It
-   keeps the persona's other tools.
+   - Only this persona gets the folder. Don't call
+     `anam_persona_knowledge_add`. Create a knowledge tool for the folder
+     with `anam_tool_create` (`name`, `description`, `type` `SERVER_RAG`
+     and `config` with `documentFolderIds` holding the folder's ID).
+     Then call `anam_persona_update` with the persona's `id`, `toolIds`
+     set to every ID it had plus the new tool's, and `expectedUpdatedAt`
+     set to the `updatedAt` you read. A 409 means the persona changed:
+     read it again and redo this step.
+   - Every persona sharing the tool gets the folder. Call
+     `anam_persona_knowledge_add` only with their yes to that wider
+     audience.
 
 ## 5. Test it
 

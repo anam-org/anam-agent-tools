@@ -58,9 +58,16 @@ session date, and the fix:
 - **Knowledge**: what to add, with the `add-knowledge` skill.
 - **Voice**: its speed or stability, as `voiceGenerationOptions` in
   `anam_persona_update`, or a different `voiceId` from `anam_options`.
-- **Tools**: a failing webhook tool's description, URL or parameters, with
-  `anam_tool_get` and `anam_tool_update`. A secret, such as an API key in
-  a header, is entered on the tool's page in Anam Lab, not in the chat.
+- **Tools**: a failing webhook tool's description, URL or parameters. Read
+  the tool with `anam_tool_get` first. A `usageCount` above 1 means other
+  personas call the same tool, and `anam_tool_update` would change it for
+  all of them: say how many, and change it only with the user's yes for
+  all of them. To fix it for this persona alone, create a corrected copy
+  with `anam_tool_create` and swap its ID for the old one in the persona's
+  `toolIds` (`anam_persona_update`, sending every other ID unchanged). A
+  secret, such as an API key in a header, shows as •••• and can't be
+  copied: the user enters it on the new tool's page in Anam Lab, not in
+  the chat.
 - **Outside this connection**: slow replies that come from the user's own
   LLM or webhook endpoint; say what to look at.
 

@@ -82,17 +82,23 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   description, the description goes to Google Gemini through Vercel's AI
   Gateway.
 - **Knowledge.** Documents you add are stored in Cloudflare R2 and indexed
-  for search in Upstash Vector. To index and search them, their text and your
-  search terms go to OpenAI models on Microsoft Azure or to Voyage AI models
-  hosted by MongoDB. Anam's server fetches a page or file you add by URL from
-  that site.
+  for search in Upstash Vector. To build the index, Anam sends their text to
+  an embedding model: OpenAI's on Microsoft Azure, or Voyage AI's hosted by
+  MongoDB. A search sends your search terms to the same embedding model, then
+  sends the terms and the passages it found to Voyage AI, hosted by MongoDB,
+  to rank them. Anam's server fetches a page or file you add by URL from that
+  site.
 - **Documentation searches.** These go to Mintlify, which hosts Anam's docs,
   without your account details.
 - **Acceptable-use checks.** After a persona has had conversations, Anam can
   check its system prompt with Google Gemini, or with Anthropic's Claude when
-  Gemini is unavailable, through Vercel's AI Gateway.
-- **Voice deletion.** If you ask Claude to delete a custom voice, Anam also
-  deletes it at the provider that hosts it, Cartesia or ElevenLabs.
+  Gemini is unavailable, through Vercel's AI Gateway. If a check flags a
+  prompt, part of it may be shared with Anam's team in Slack for review, with
+  your organization's name and the session's ID.
+- **Voice deletion.** If you ask Claude to delete a custom voice, Anam deletes
+  it from your account and then tries to delete it at its provider, Cartesia
+  or ElevenLabs, once no other Anam voice uses it. That provider step covers
+  eligible voices only and can fail.
 - **Usage analytics.** PostHog receives a record of each tool call: the tool,
   whether it worked, how long it took, the names of the arguments sent but
   not their values, and the ID of the persona it acted on, with your Anam
