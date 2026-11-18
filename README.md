@@ -23,6 +23,7 @@ Cursor Marketplace plugin. It contains configuration and instructions only.
 | `add-knowledge`         | Give a persona knowledge from web pages, public files or pasted text, and test it.             |
 | `pick-voice-and-avatar` | Find avatars and voices by language, accent and look, and apply them.                          |
 | `avatar-from-photo`     | Make a custom avatar from a photo the user has the rights to.                                  |
+| `add-your-own-voice`    | Add the user's own voice: record, upload or import from ElevenLabs in Lab, or by voice ID.     |
 | `improve-persona`       | Find where callers got stuck in recent sessions and fix the prompt, greeting or knowledge.     |
 | `review-sessions`       | Report on a period's sessions: volume, errors, slow replies, failed tool calls and quotes.     |
 | `send-to-meeting`       | Send a persona into a Google Meet, Zoom or Microsoft Teams call.                               |
@@ -32,8 +33,13 @@ The same skills ship in the Anam AI Avatars plugin for ChatGPT. They name
 only tools that both the ChatGPT plugin and `https://lab.anam.ai/mcp` serve.
 `avatar-from-photo` takes an attached photo only in ChatGPT; elsewhere it
 needs a public image URL. Anam's Claude directory connector leaves out avatar
-creation and meeting invites, so `avatar-from-photo` and `send-to-meeting`
-need the full server URL above.
+creation, voice cloning and imports and meeting invites, so
+`avatar-from-photo`, `add-your-own-voice` and `send-to-meeting` need the full
+server URL above.
+
+The [`claude/`](claude/) folder is the Anam plugin for Claude: the other 11
+skills, adapted to that connector, and the connector itself
+(`https://lab.anam.ai/mcp/claude`).
 
 ## Install
 
@@ -53,6 +59,21 @@ skills. Or add only the MCP server with this link:
 ```text
 cursor://anysphere.cursor-deeplink/mcp/install?name=anam&config=eyJ1cmwiOiJodHRwczovL2xhYi5hbmFtLmFpL21jcCJ9
 ```
+
+### Claude Code
+
+Install the Anam plugin from this repository. It adds the skills and the
+connection, which signs in with OAuth:
+
+```text
+/plugin marketplace add anam-org/anam-agent-tools
+/plugin install anam@anam-agent-tools
+```
+
+Then run `/mcp`, choose `anam` and sign in. The plugin connects to Anam's
+Claude connector, without the three skills above that it leaves out. For all
+the skills, install them with `npx skills add` and connect the full server, as
+below.
 
 ### Skills for Claude Code, Codex and other agents
 
@@ -92,8 +113,8 @@ Any other MCP client: add a remote (Streamable HTTP) server at
 
 The first time your agent uses Anam, it opens a browser so you can sign in.
 You choose the Anam organization to connect and whether the agent gets full
-or read-only access. Manage or disconnect apps at
-[lab.anam.ai/ai-apps](https://lab.anam.ai/ai-apps).
+or read-only access. Manage or disconnect apps in Anam Lab's Settings, under
+Connected apps ([lab.anam.ai/ai-apps](https://lab.anam.ai/ai-apps)).
 
 Agents that run without a browser can send an Anam API key instead, as
 `Authorization: Bearer <key>`. Keep the key in an environment variable, never

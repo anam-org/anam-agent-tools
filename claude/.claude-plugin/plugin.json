@@ -1,0 +1,28 @@
+{
+  "name": "anam",
+  "displayName": "Anam",
+  "version": "1.0.0",
+  "description": "Build Anam personas (real-time AI avatars that talk with people over video) for roles such as receptionist, support agent, tutor or interviewer, give them knowledge, add them to your website or app and improve them from their conversations, through Anam's connector.",
+  "author": {
+    "name": "Anam",
+    "email": "support@anam.ai",
+    "url": "https://anam.ai"
+  },
+  "homepage": "https://anam.ai/docs/resources/mcp",
+  "repository": "https://github.com/anam-org/anam-agent-tools",
+  "license": "MIT",
+  "keywords": [
+    "anam",
+    "avatars",
+    "personas",
+    "video",
+    "voice",
+    "ai-receptionist",
+    "ai-tutor"
+  ],
+  "icon": "./assets/anam-icon.png",
+  "documentationUrl": "https://anam.ai/docs/resources/mcp",
+  "supportUrl": "https://lab.anam.ai/mcp#help",
+  "privacyPolicyUrl": "https://anam.ai/privacy-policy",
+  "termsOfServiceUrl": "https://anam.ai/terms-of-service"
+}
