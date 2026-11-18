@@ -68,9 +68,14 @@ environment; look up the variable names with `anam_docs_search`.
 In a coding agent, write the files into the project without overwriting
 what's there. Where a returned file already exists, such as a page, a
 server file or `.gitignore`, add what's missing to the existing file and
-show the user the change. Never write to, replace or print a real env file
-such as `.env` or `.env.local`: put the empty `ANAM_API_KEY=` line in
-`.env.example`, and the user copies it and adds the key themselves. In
+show the user the change. The returned files can include the env file
+itself, `.env.local` for Next.js or `.env` for the others, holding only
+a comment and an empty `ANAM_API_KEY=` line. Don't write that file, and
+never create, replace, change or print a real env file such as `.env`
+or `.env.local`, even one that doesn't exist yet: put the empty
+`ANAM_API_KEY=` line in `.env.example` instead (create it, or add the
+line if it's missing), and check that `.gitignore` covers the real file.
+The user creates or edits the real file and adds the key themselves. In
 chat, give the user the files and commands to copy.
 
 Anyone who can call the session-token endpoint can start conversations
@@ -94,7 +99,10 @@ The generated app calls Anam's API with the user's own key: its server swaps
 session on the organization's minutes. So the user runs the test, not you:
 
 1. They create an API key at https://lab.anam.ai/api-keys and put it in
-   their server's environment themselves.
+   their server's environment themselves: in `.env.local` (Next.js) or
+   `.env` (Express, FastAPI), creating the file if it doesn't exist, as
+   `ANAM_API_KEY=` followed by the key. The start commands read that
+   file, so it must exist first.
 2. They start the app with the commands you gave and check that the avatar
    appears and answers.
 
