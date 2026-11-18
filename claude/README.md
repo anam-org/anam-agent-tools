@@ -128,5 +128,5 @@ Manage or disconnect apps in Anam Lab under Settings, Connected apps
 
 ## License
 
-MIT; see [LICENSE](LICENSE). The license covers the plugin's files, not the
+MIT; see the LICENSE file. The license covers the plugin's files, not the
 Anam service.

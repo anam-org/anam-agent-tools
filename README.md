@@ -37,7 +37,7 @@ creation, voice cloning and imports and meeting invites, so
 `avatar-from-photo`, `add-your-own-voice` and `send-to-meeting` need the full
 server URL above.
 
-The [`claude/`](claude/) folder is the Anam plugin for Claude: the other 11
+The `claude/` folder is the Anam plugin for Claude: the other 11
 skills, adapted to that connector, and the connector itself
 (`https://lab.anam.ai/mcp/claude`).
 
