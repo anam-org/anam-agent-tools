@@ -27,10 +27,15 @@ give me a link to try it", or pick a skill. Conversations with a persona
 happen in your browser through its share link, or in your own app, not in
 Claude.
 
+<!-- left-out -->
+
 Claude's directory policy excludes connectors that generate images, video or
 audio with AI, so this version leaves out making an avatar from a photo,
-sending a persona into a video meeting, and cloning or importing a voice. They
-stay available in [Anam Lab](https://lab.anam.ai).
+sending a persona into a video meeting, and cloning or importing a voice (the
+`avatar-from-photo`, `send-to-meeting` and `add-your-own-voice` skills in
+Anam's other plugins). They stay available in [Anam Lab](https://lab.anam.ai).
+
+<!-- /left-out -->
 
 ## Install
 
@@ -94,21 +99,13 @@ or agents, so nothing from it runs on your computer.
     through Vercel's AI Gateway. Flagged prompts, with the organization's
     name, are posted to Anam's internal Slack for review. This runs on
     sessions, whichever app created the persona.
-  - **Product analytics (PostHog).** Each tool call sends an event with
-    the tool's name, whether it worked, how long it took, the size of the
-    result, the names (not the values) of its arguments, the persona's ID if
-    there is one, the kind of connection and access, and the connected app:
-    the kind of client, a hash of its client ID, its web host when it
-    signs in with a client metadata document, the publisher's name when
-    Anam verified it, and its name as one of a fixed set of labels or
-    "other". Your Anam organization and user IDs go with it. Some actions
-    send their own events too: creating a share link sends its ID, type,
-    usage limit, expiry and persona ID; creating a persona sends a
-    `persona_created` event with its ID and the tool that made it; using a
-    starter prompt sends the prompt's name and which arguments were filled
-    in; and connecting, the first request, disconnecting, refusing consent
-    and a duplicate connection each send an event with the same app
-    details and access level.
+  - **Product analytics (PostHog).** Usage events for tool calls (tool
+    name, outcome, timing, result size, and argument names but not their
+    values) and for starter prompts; events when share links and personas
+    are created; and events when apps connect, disconnect or have a
+    connection refused or replaced. Each carries your Anam organization ID
+    and, where the event has them, your Anam user ID and identifiers for the
+    connected app.
 - **Code for your app.** `add-to-website` writes code into your project or
   hands it to you. That code is yours to run: its server calls Anam's API
   with your own Anam API key to start sessions, and every session uses your
