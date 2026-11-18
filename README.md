@@ -70,7 +70,7 @@ connection, which signs in with OAuth:
 /plugin install anam@anam-agent-tools
 ```
 
-Then run `/mcp`, choose `anam` and sign in. The plugin connects to Anam's
+Then run `/mcp`, select the Anam server and sign in. The plugin connects to Anam's
 Claude connector, without the three skills above that it leaves out. For all
 the skills, install them with `npx skills add` and connect the full server, as
 below.

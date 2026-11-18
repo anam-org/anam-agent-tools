@@ -20,7 +20,11 @@ show the plan, and say that creating the persona needs full access.
 Ask for what the user hasn't said:
 
 - Practice or real screening. Practice can end with feedback; a screening
-  interview shouldn't tell candidates whether they passed.
+  interview shouldn't tell candidates whether they passed. Screening
+  affects whether someone gets a job, so the interviewer only collects
+  answers: a person at the user's company reviews every interview and
+  makes the decision, and candidates are told before they start that an
+  AI runs the interview and that it's recorded and transcribed.
 - The role and seniority, and the job description if there is one.
 - The interview type: behavioural, technical, case, sales role-play and so
   on, and roughly how long.
@@ -35,13 +39,32 @@ Ask for what the user hasn't said:
   improve." Add the job description's main points. Show the user the
   `systemPrompt` and `initialMessage` it wrote, and change them with
   `anam_persona_update` if they want.
-- **Screening interview**: call `anam_quickstart` with `name` and
-  `template: "interviewer"`. The template treats every candidate the same,
-  never asks about protected characteristics such as age, health or
-  nationality, and doesn't say whether they passed.
+- **Screening interview**:
+  1. Call `anam_quickstart` with `name` and `template: "interviewer"`.
+     The template treats every candidate the same, never asks about
+     protected characteristics such as age, health or nationality, and
+     doesn't say whether they passed.
+  2. Read the prompt it made with `anam_persona_get`, then call
+     `anam_persona_update` with the persona's `id` and:
+     - `systemPrompt`: the template's prompt with the brief worked into
+       its Environment and Goal sections: the role and seniority, the
+       interview type, how long it lasts and what to ask about. Keep
+       its Guardrails section word for word and add: "You are an AI
+       interviewer. Say so if asked and never claim to be a person. A
+       person at the company reviews every interview and makes the
+       decision."
+     - `initialMessage`: a greeting that says so up front, such as "Hi,
+       I'm Sam, an AI interviewer for Acme. I'll ask about your
+       experience for about twenty minutes, and someone on the hiring
+       team will review your answers afterwards. Ready to start?"
+     - `languageCode` for the interview's language, such as `es`, with
+       a `voiceId` that speaks it.
+  3. Show the user the final `systemPrompt` and `initialMessage`.
 
 Pass `avatarId` and `voiceId` from `anam_options` if the user chose them. Both
-tools create a share link.
+tools create a share link. For a practice interview that isn't in English,
+set `languageCode` with `anam_persona_update` and choose a voice that
+speaks the language.
 
 ## 4. Add the job description (optional)
 
@@ -56,7 +79,10 @@ towards the monthly upload allowance, so tell the user first),
 ## 5. Hand it over
 
 Give the user the share link URL. They open it in a browser, allow the
-microphone and start the interview. By default the link allows 10 sessions
+microphone and start the interview. For a screening interview, the user
+tells each candidate in the invitation that the interviewer is an AI, that
+a person reviews the answers and decides, and that the conversation is
+recorded and transcribed. By default the link allows 10 sessions
 over 7 days, on the organization's minutes. For more candidates or a longer
 period, change the link with `anam_share_link_update` (`usageLimit`,
 `expiresInHours`) or create one per candidate with `anam_share_link_create`.
@@ -69,7 +95,8 @@ create one with `anam_share_link_create` if the reason allows it.
 After an interview, find it with `anam_session_search` (`personaId`, and
 `from` for today), then read it with `anam_session_transcript_get`. Give
 written feedback quoting the answers. For a screening interview, summarize
-the answers and leave the decision to the user.
+the answers without scoring, ranking or recommending a decision. The
+decision is the user's.
 
 ## Rules
 

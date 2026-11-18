@@ -28,7 +28,14 @@ Ask for what the user hasn't said, in one or two questions:
 - The language visitors speak, and the receptionist's name.
 
 The persona can't book into a calendar or send messages on its own. That needs
-a webhook tool, which the user sets up in Anam Lab; say so if they ask.
+a webhook tool that calls the business's own booking or messaging system.
+If the user asks for one and has an endpoint for it, create the tool with
+`anam_tool_create` (`type` `SERVER_WEBHOOK`, with the URL and the
+parameters to collect) and add its `id` to the persona's `toolIds` with
+`anam_persona_update`, sending every ID to keep. Tell them first that
+each call sends what the visitor said for those parameters to that URL.
+If the endpoint needs a secret, such as an API key in a header, the user
+enters it on the tool's page in Anam Lab, not in the chat.
 
 ## 3. Create it
 
@@ -37,7 +44,8 @@ a webhook tool, which the user sets up in Anam Lab; say so if they ask.
    Role words such as `receptionist` rarely match.
 2. Call `anam_quickstart` with `name`, `template: "receptionist"` and any
    chosen IDs. It creates the persona and a share link.
-3. Write a greeting with the user, such as "Hi, welcome to Riverside Dental.
+3. Write a greeting with the user that says it's an AI, such as "Hi,
+   welcome to Riverside Dental. I'm Riley, the clinic's AI receptionist.
    How can I help you today?", and set it with `anam_persona_update`
    (`id`, `initialMessage`). Add `languageCode`, such as `es`, for the
    language visitors speak, with a voice that speaks it.

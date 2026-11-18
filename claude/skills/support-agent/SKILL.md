@@ -36,7 +36,7 @@ Ask for what the user hasn't said:
    card numbers, and explains how to reach the support team when it can't
    help. The call also creates a share link.
 3. Set a greeting with `anam_persona_update` (`id`, `initialMessage`), such
-   as "Hi, I'm Sam from Acme support. What can I help you with?", and
+   as "Hi, I'm Sam, Acme's AI support assistant. What can I help you with?", and
    `languageCode` if customers speak another language.
 
 ## 4. Add the help content

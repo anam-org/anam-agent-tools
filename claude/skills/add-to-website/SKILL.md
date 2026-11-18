@@ -65,8 +65,27 @@ For browser apps, the shape is always the same:
 For LiveKit, Pipecat and Python, the key lives in the agent's or service's
 environment; look up the variable names with `anam_docs_search`.
 
-In a coding agent, write the files into the project. In chat, give the user
-the files and commands to copy.
+In a coding agent, write the files into the project without overwriting
+what's there. Where a returned file already exists, such as a page, a
+server file or `.gitignore`, add what's missing to the existing file and
+show the user the change. Never write to, replace or print a real env file
+such as `.env` or `.env.local`: put the empty `ANAM_API_KEY=` line in
+`.env.example`, and the user copies it and adds the key themselves. In
+chat, give the user the files and commands to copy.
+
+Anyone who can call the session-token endpoint can start conversations
+on the organization's minutes. Before the user deploys it anywhere
+public, settle who may start one:
+
+- In an app with sign-in, put the endpoint behind the app's existing
+  sign-in check and say where you added it.
+- For a public page with no sign-in, offer the website widget, which
+  runs only on the domains the user allows, or a share link with a
+  `usageLimit` and `expiresInHours`. If the user still wants their own
+  public endpoint, they need a limit of their own on it, such as rate
+  limiting per visitor, and can cap each conversation with the persona's
+  `maxSessionLengthSeconds` (`anam_persona_update`). Write a public
+  endpoint only once they have said yes to one.
 
 ## 3. Hand over the test
 

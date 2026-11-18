@@ -1,10 +1,17 @@
 # Anam for Claude
 
-[Anam](https://anam.ai) makes personas: real-time AI avatars that talk with
-people over video, for customer support, sales, reception, tutoring and
-interview practice. This plugin lets Claude build and run them in your Anam
-account. It adds Anam's connector and skills, recipes that tell Claude how to
-use the connector's tools for one task each.
+[Anam](https://anam.ai) makes personas: AI avatars that people talk to over
+live video, for customer support, sales, reception, tutoring and interview
+practice. With this plugin, Claude sets personas up and looks after them in
+your Anam account. It writes their prompts, picks an avatar and a voice, adds
+knowledge, creates share links, reviews past conversations and helps you put
+a persona on your site.
+
+People talk to a persona in a browser, through its share link or your own
+site or app. Those conversations run on Anam, not in Claude.
+
+The plugin adds Anam's connector and 11 skills. Each skill tells Claude how to
+use the connector's tools for one task.
 
 ## Skills
 
@@ -14,28 +21,20 @@ use the connector's tools for one task each.
 | `create-persona`        | Create a persona from a short brief and get a share link to talk to it.                        |
 | `ai-receptionist`       | Set up a receptionist that greets visitors, answers from the business's facts and takes notes. |
 | `support-agent`         | Set up a support agent that answers from help articles and says how to reach the team.         |
-| `tutor`                 | Set up a tutor for a subject, level or language.                                               |
-| `interview-practice`    | Set up a mock or screening interviewer for a role.                                             |
-| `add-knowledge`         | Give a persona knowledge from web pages, public files or pasted text, and test it.             |
+| `tutor`                 | Set up a tutor for a subject, level or language, for learners aged 16 and over.                |
+| `interview-practice`    | Set up a mock interviewer, or a screening interviewer whose interviews a person reviews.       |
+| `add-knowledge`         | Give a persona knowledge from web pages, files or pasted text, and test it.                    |
 | `pick-voice-and-avatar` | Find avatars and voices by language, accent and look, and apply them.                          |
 | `improve-persona`       | Find where callers got stuck in recent sessions and fix the prompt, greeting or knowledge.     |
 | `review-sessions`       | Report on a period's sessions: volume, errors, slow replies, failed tool calls and quotes.     |
 | `add-to-website`        | Put a persona on a site with a share link, the widget or code with a server-side token.        |
 
 Ask in your own words, such as "Make a receptionist for my dental clinic and
-give me a link to try it", or pick a skill. Conversations with a persona
-happen in your browser through its share link, or in your own app, not in
-Claude.
+give me a link to try it", or pick a skill.
 
-<!-- left-out -->
-
-Claude's directory policy excludes connectors that generate images, video or
-audio with AI, so this version leaves out making an avatar from a photo,
-sending a persona into a video meeting, and cloning or importing a voice (the
-`avatar-from-photo`, `send-to-meeting` and `add-your-own-voice` skills in
-Anam's other plugins). They stay available in [Anam Lab](https://lab.anam.ai).
-
-<!-- /left-out -->
+Not in this plugin: making an avatar from a photo, sending a persona into a
+video meeting, cloning or importing a voice, and starting a conversation from
+inside Claude. Use [Anam Lab](https://lab.anam.ai) for those.
 
 ## Install
 
@@ -52,72 +51,80 @@ In Claude Code, add this repository as a marketplace and install the plugin:
 /plugin install anam@anam-agent-tools
 ```
 
-Then run `/mcp`, choose `anam` and sign in.
+Then run `/mcp`, select the Anam server and sign in.
 
-## What it connects to
+## Where your data goes
 
-The plugin holds configuration and instructions only: its manifest, one MCP
-server entry, the skills and this README. It has no hooks, scripts, commands
-or agents, so nothing from it runs on your computer.
+The plugin is configuration and instructions: a manifest, one connector
+entry, the skills and this README. It has no hooks, scripts, commands or
+agents, so nothing from it runs on your computer.
 
-- **One server.** The plugin itself connects only to Anam's MCP server at
-  `https://lab.anam.ai/mcp/claude`, run by Anam. It carries no API key or
-  other credential. The services listed under "Anam's processors" below are
-  reached by Anam's server, not by the plugin or your computer.
-- **Sign-in.** You sign in with OAuth in your browser and choose one Anam
-  organization and full or read-only access. Claude acts
-  only in the Anam organization you chose, with the access you chose.
-  Read-only access still reads everything in it, including session
-  transcripts, recordings and knowledge; full access can also change and
-  delete things.
-- **What goes to Anam.** What Claude sends to the connector's tools: persona
-  names, prompts and settings, knowledge text and the URLs of pages or files
-  to add, search terms, and questions about Anam's documentation. Claude
-  receives what the tools return, such as personas, knowledge, share links,
-  session transcripts and usage.
-- **Anam's processors.** Anam's server passes some of that data on. These
-  are the destinations the repository shows for this connector's tools:
-  - **Persona design.** The `anam_persona_from_brief` tool (which
-    `create-persona`, `tutor`, `interview-practice` and
-    `pick-voice-and-avatar` can use) sends the description to Google's
-    Gemini model, through Vercel's AI Gateway, to write the persona's prompt
-    and greeting.
-  - **Knowledge.** Pasted text and the content of a page or file fetched
-    from a URL you give are stored as a document in Anam's Cloudflare R2
-    storage. Anam's knowledge service (rag-service, run by Anam in its own
-    regional clusters) then splits it into chunks, turns them into
-    embeddings and keeps them for search. Its default embedding model is
-    OpenAI's `text-embedding-3-large` through Azure OpenAI; Anam can choose
-    `voyage-4` for an organization's new uploads instead. Knowledge searches
-    send the search text to the same service. Fetching a URL means Anam's
-    server requests it from that site.
-  - **Documentation.** Searches go to Mintlify, which hosts Anam's docs.
-    Send documentation terms, not customer content.
-  - **Session moderation.** After people use a persona, Anam's
-    acceptable-use check can send the system prompt its sessions used to
-    Google's Gemini model, with Anthropic's Claude Haiku as a fallback, both
-    through Vercel's AI Gateway. Flagged prompts, with the organization's
-    name, are posted to Anam's internal Slack for review. This runs on
-    sessions, whichever app created the persona.
-  - **Product analytics (PostHog).** Usage events for tool calls (tool
-    name, outcome, timing, result size, and argument names but not their
-    values) and for starter prompts; events when share links and personas
-    are created; and events when apps connect, disconnect or have a
-    connection refused or replaced. Each carries your Anam organization ID
-    and, where the event has them, your Anam user ID and identifiers for the
-    connected app.
-- **Code for your app.** `add-to-website` writes code into your project or
-  hands it to you. That code is yours to run: its server calls Anam's API
-  with your own Anam API key to start sessions, and every session uses your
-  organization's minutes. Claude leaves starting it and creating the key to
-  you.
-- **Billing.** Knowledge documents count towards your plan's monthly upload
-  allowance and conversations through share links use your organization's
-  minutes, as they do in Anam Lab. The skills ask before that work.
+### The plugin connects to one server
+
+That server is Anam's MCP server at `https://lab.anam.ai/mcp/claude`, run by
+Anam. You sign in with OAuth in your browser and choose one Anam organization
+and full or read-only access. The plugin holds no API key. Claude acts
+only in the Anam organization you chose, with the access you chose.
+Read-only access still reads everything in it, including session
+transcripts, recordings and knowledge; full access can also change and
+delete things.
+
+Claude sends Anam what you ask it to work with: persona names, prompts and
+settings, knowledge text, the URLs of pages or files to add, search terms and
+documentation questions. Anam returns what is in your account, such as
+personas, knowledge, share links, session transcripts and usage.
+
+### Services Anam's server passes data to
+
+Anam's server, not the plugin or your computer, sends some of that data on:
+
+- **Persona descriptions.** When Claude asks Anam to write a persona from a
+  description, the description goes to Google Gemini through Vercel's AI
+  Gateway.
+- **Knowledge.** Documents you add are stored in Cloudflare R2 and indexed
+  for search in Upstash Vector. To index and search them, their text and your
+  search terms go to OpenAI models on Microsoft Azure or to Voyage AI models
+  hosted by MongoDB. Anam's server fetches a page or file you add by URL from
+  that site.
+- **Documentation searches.** These go to Mintlify, which hosts Anam's docs,
+  without your account details.
+- **Acceptable-use checks.** After a persona has had conversations, Anam can
+  check its system prompt with Google Gemini, or with Anthropic's Claude when
+  Gemini is unavailable, through Vercel's AI Gateway.
+- **Voice deletion.** If you ask Claude to delete a custom voice, Anam also
+  deletes it at the provider that hosts it, Cartesia or ElevenLabs.
+- **Usage analytics.** PostHog receives a record of each tool call: the tool,
+  whether it worked, how long it took, the names of the arguments sent but
+  not their values, and the ID of the persona it acted on, with your Anam
+  organization ID and, where available, your user ID. It also receives events
+  when personas and share links are created and when apps connect or
+  disconnect.
+
+If you connect your own language model or give a persona a webhook tool, Anam
+sends conversation content to the URL you chose, with the key or secret you
+saved for it. Enter keys and secrets in Anam Lab, not in a chat.
+
+Anam's hosting, database and logging providers, and the speech and language
+providers that live conversations use, are in the full list at
+[trust.anam.ai/subprocessors](https://trust.anam.ai/subprocessors). Anam's
+[privacy policy](https://anam.ai/privacy-policy) covers AI apps in section 12
+and retention in section 6.
+
+### Code and costs
+
+`add-to-website` can write starter code into your project or hand it to you.
+That code is yours to run: its server calls Anam's API with your own Anam API
+key to start conversations. Claude leaves creating the key and starting the
+app to you.
+
+Knowledge documents count towards your plan's monthly upload allowance, and
+conversations use your organization's minutes, as they do in Anam Lab. The
+skills tell you before adding knowledge. Creating a persona also creates a
+share link, good for 10 conversations over 7 days by default, which uses
+minutes only when someone opens it and talks.
 
 Manage or disconnect apps in Anam Lab under Settings, Connected apps
 ([lab.anam.ai/ai-apps](https://lab.anam.ai/ai-apps)). See Anam's
-[privacy policy](https://anam.ai/privacy-policy) and
 [terms of service](https://anam.ai/terms-of-service).
 
 ## Support

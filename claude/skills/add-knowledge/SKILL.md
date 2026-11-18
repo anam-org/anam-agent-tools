@@ -21,8 +21,12 @@ personas can share a folder.
      page to add.
    - Text the user pastes or writes with you, up to 500,000 characters per
      document.
-   - A file on the user's computer: this connection can't read it. Ask them
-     to paste its text, give a public URL, or upload it in Anam Lab.
+   - A file on the user's computer. If you can read it here (a file they
+     attached, or one they name in the project you're working in) and
+     it's text, Markdown, CSV or JSON, send its text with
+     `anam_knowledge_document_create_from_text`. Read only the file they
+     name. For a PDF, a DOCX or anything else you can't read as text, ask
+     them to give a public URL or upload it in Anam Lab.
 
 ## 2. Check the allowance and get a yes
 
@@ -33,8 +37,15 @@ once they agree. Their app may also ask them to approve each upload.
 
 ## 3. Add the documents
 
-1. Reuse a folder from `anam_knowledge_folder_list`, or create one with
-   `anam_knowledge_folder_create` (a clear `name`, such as "Clinic FAQ").
+1. Create a folder for this persona with `anam_knowledge_folder_create`
+   (a clear `name`, such as "Clinic FAQ"), unless the user names an
+   existing one from `anam_knowledge_folder_list`. A document added to an
+   existing folder is searchable at once by every persona that already
+   uses the folder. So before reusing one, call `anam_tool_list` and
+   look at the `SERVER_RAG` tools whose config lists the folder's ID. If
+   any has a `usageCount` above 0, tell the user how many personas will
+   be able to answer from the new document, and add it only when they
+   agree.
 2. For each source, call `anam_knowledge_document_create_from_url` (`folderId`,
    `url`, optional `title`) or `anam_knowledge_document_create_from_text`
    (`folderId`, `title`, `text`).
@@ -44,10 +55,25 @@ once they agree. Their app may also ask them to approve each upload.
 
 ## 4. Attach the folder
 
-Call `anam_persona_knowledge_add` with `personaId` and `folderIds`. It keeps
-the persona's other tools. The persona searches its folders through a
-knowledge tool, as in Lab's Build page; if other personas use the same tool,
-they get the folder too.
+A persona searches its folders through a knowledge tool, as in Lab's Build
+page. `anam_persona_knowledge_add` adds the folder to the knowledge tool
+the persona already has, and every other persona using that tool gets the
+folder too. An internal document could become searchable by a public
+receptionist that way, so check first:
+
+1. Call `anam_persona_get`. If its `tools` include a `SERVER_RAG` tool,
+   call `anam_tool_get` for it.
+2. A `usageCount` above 1 means other personas share the tool. Tell the
+   user how many, and ask which they want:
+   - Every persona sharing the tool gets the folder. Go on only with
+     their yes to that wider audience.
+   - Only this persona gets it. Call `anam_persona_update` with `toolIds`
+     set to the persona's current list without the shared tool's ID,
+     then pass `anam_persona_knowledge_add` the folders that tool
+     searched as well as the new one. With no knowledge tool attached,
+     it creates one for this persona alone.
+3. Call `anam_persona_knowledge_add` with `personaId` and `folderIds`. It
+   keeps the persona's other tools.
 
 ## 5. Test it
 

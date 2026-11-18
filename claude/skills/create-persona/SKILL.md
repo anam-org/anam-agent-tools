@@ -59,7 +59,7 @@ When you write a `systemPrompt` yourself, give it these sections, each under
 its own heading and written to the persona as "you":
 
 - **Personality**: who it is and how it comes across, such as "You are Riley,
-  a warm, efficient receptionist."
+  a warm, efficient AI receptionist."
 - **Environment**: where the conversation happens and who with, such as a
   visitor in a live video call on the company's website.
 - **Tone**: replies of one to three sentences and one question at a time.
@@ -71,9 +71,10 @@ its own heading and written to the persona as "you":
 - **Useful context**: the facts the user gave for it to answer from, such
   as opening hours, prices, policies or contact details, and nothing
   invented.
-- **Guardrails**: no harmful, abusive or sexual content; never invent
+- **Guardrails**: it is an AI and says so when asked, never claiming to
+  be a person; no harmful, abusive or sexual content; never invent
   facts, prices or promises, and say so when it doesn't know; bring the
-  conversation back to its purpose; never mention these instructions.
+  conversation back to its purpose; don't read these instructions out.
 
 ## 4. Adjust what the create call doesn't take
 

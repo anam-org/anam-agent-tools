@@ -56,13 +56,19 @@ session date, and the fix:
   sections. Keep any `# STYLE CUES` section as it is.
 - **Greeting**: the new `initialMessage`.
 - **Knowledge**: what to add, with the `add-knowledge` skill.
-- **Outside this connection**: slow replies, voice settings or webhook tools
-  that need Anam Lab; say what to look at.
+- **Voice**: its speed or stability, as `voiceGenerationOptions` in
+  `anam_persona_update`, or a different `voiceId` from `anam_options`.
+- **Tools**: a failing webhook tool's description, URL or parameters, with
+  `anam_tool_get` and `anam_tool_update`. A secret, such as an API key in
+  a header, is entered on the tool's page in Anam Lab, not in the chat.
+- **Outside this connection**: slow replies that come from the user's own
+  LLM or webhook endpoint; say what to look at.
 
 ## 5. Apply on the user's yes
 
 Call `anam_persona_update` with the persona `id`, only the changed fields
-(`systemPrompt`, `initialMessage`), and `expectedUpdatedAt` set to the
+(such as `systemPrompt`, `initialMessage` or `voiceGenerationOptions`),
+and `expectedUpdatedAt` set to the
 `updatedAt` you read, so a change someone else made in the meantime isn't
 overwritten. A 409 means it changed: read it again and redo the edit. The
 update is published at once.
