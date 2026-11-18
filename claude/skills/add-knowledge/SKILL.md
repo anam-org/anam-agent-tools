@@ -85,24 +85,34 @@ personas may use it.
 
 ## Other changes
 
-- Remove a folder from a persona. Call `anam_persona_get` for its
-  `toolIds` and `updatedAt`, then `anam_tool_get` for each ID. The ones
-  to change have `type` `SERVER_RAG` and list the folder in their
-  config.
-  - If each of those has a `usageCount` of 1, only this persona uses
-    them: call `anam_persona_knowledge_remove` with `personaId` and
-    `folderIds`.
-  - If any has a `usageCount` above 1, other personas share it, and
-    `anam_persona_knowledge_remove` would take the folder away from all
-    of them. Leave the shared tool as it is. If it lists other folders
-    this persona should keep, create a tool for those with
-    `anam_tool_create` (`name`, `description`, `type` `SERVER_RAG`,
-    `config` with `documentFolderIds`). Then call `anam_persona_update`
-    with the persona's `id`, `toolIds` set to its list without the
-    shared tool's ID and with the new tool's, and `expectedUpdatedAt`
-    set to the `updatedAt` you read. Use
-    `anam_persona_knowledge_remove` on a shared tool only when the user
-    says every persona using it should lose the folder.
+- Remove a folder from a persona. Don't edit any knowledge tool in place:
+  other personas, drafts among them, can use the same tool, and a
+  persona can have more than one tool for a folder, such as a shared
+  one and one of its own.
+  1. Call `anam_persona_get` and note its `toolIds` and `updatedAt`.
+     `toolIds` lists every attached tool, even when `tools` leaves
+     some out.
+  2. Call `anam_tool_get` for every ID in `toolIds`. Every tool with
+     `type` `SERVER_RAG` whose config lists the folder in
+     `documentFolderIds` is a matching tool; resolve all of them, not
+     only the first.
+  3. Drop each matching tool whose only folder is this one. For each
+     matching tool that has other folders, create a replacement with
+     `anam_tool_create`: `type` `SERVER_RAG`, a `name` and
+     `description` adapted from the old tool's, and `config` with
+     `documentFolderIds` holding its other folders and the old
+     tool's `topK`, `minScore`, `maxContextTokens` and
+     `neighborChunks`.
+  4. Build one new `toolIds`: every unrelated ID in its original
+     order, none of the matching IDs, and the replacements' IDs.
+  5. Call `anam_persona_update` once with the persona's `id`, that
+     `toolIds` and `expectedUpdatedAt` set to the `updatedAt` you
+     read. A 409 means the persona changed: read it again and redo
+     steps 2 to 5, reusing replacements you already created.
+
+  Use `anam_persona_knowledge_remove` only when the user asks to
+  remove the folder from every persona that uses the tool: it edits
+  the tool in place.
 - Replace an out-of-date document: add the new one, then delete the old one
   with `anam_knowledge_document_delete` once the user agrees.
 

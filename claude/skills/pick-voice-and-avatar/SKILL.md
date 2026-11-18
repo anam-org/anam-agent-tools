@@ -50,8 +50,12 @@ each voice lists the persona's language.
 
 ## 4. Apply the choice
 
-- **New persona**: pass `avatarId` and `voiceId` to `anam_quickstart` or
-  `anam_persona_from_brief` (see `create-persona`).
+- **New persona**: if it will interview real job candidates, for
+  screening or hiring, don't create it here. Use the `interview-practice`
+  skill with the chosen `avatarId` and `voiceId`: it sets up what
+  candidates are told and who makes the decision before any persona or
+  link exists. Otherwise pass `avatarId` and `voiceId` to
+  `anam_quickstart` or `anam_persona_from_brief` (see `create-persona`).
 - **Existing persona**: find it with `anam_persona_list`, then call
   `anam_persona_update` with `id`, `avatarId` and/or `voiceId`, and
   `languageCode` if the language changes. A new voice resets the voice's
