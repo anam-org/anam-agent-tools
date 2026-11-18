@@ -55,11 +55,22 @@ returns. Leave `llmId` out unless the user asks for a particular language
 model: Anam's default is fast and suits most personas. Both also create a
 share link unless `createShareLink` is false.
 
-When you write a `systemPrompt` yourself, follow Anam's prompting guide (find
-it with `anam_docs_search` for "prompting guide", then read it with
-`anam_docs_read`): separate sections for personality, environment, tone, goal
-and guardrails. The persona speaks out loud, so ask for replies of one to
-three sentences in plain text, with no lists, symbols or markdown.
+When you write a `systemPrompt` yourself, give it these sections, each under
+its own heading and written to the persona as "you":
+
+- **Personality**: who it is and how it comes across, such as "You are Riley,
+  a warm, efficient receptionist."
+- **Environment**: where the conversation happens and who with, such as a
+  visitor in a live video call on the company's website.
+- **Tone**: replies of one to three sentences and one question at a time.
+  Its words are spoken aloud, so plain text with no lists, symbols, links,
+  markdown or abbreviations, and numbers in words ("fifty dollars a month",
+  not "$50/mo"). Speech is transcribed, so it asks again when something it
+  heard doesn't make sense.
+- **Goal**: what each conversation should achieve, as a few numbered steps.
+- **Guardrails**: no harmful, abusive or sexual content; never invent
+  facts, prices or promises, and say so when it doesn't know; bring the
+  conversation back to its purpose; never mention these instructions.
 
 ## 4. Adjust what the create call doesn't take
 

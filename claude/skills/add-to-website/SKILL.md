@@ -45,7 +45,7 @@ code into the page. The guide links the steps for each site builder.
 3. For anything else, call `anam_integration_guide` with `stack`
    (`javascript`, `react`, `livekit`, `pipecat`, `python`, `elevenlabs` or
    `mobile`) and `personaId`. It returns the package to install, a minimal
-   snippet and the guides to follow. Read a guide in full with
+   snippet and links to the guides. Read a guide in full with
    `anam_docs_read`, and look anything else up with `anam_docs_search`.
    Don't rely on remembered SDK APIs.
 
@@ -61,16 +61,23 @@ For browser apps, the shape is always the same:
   ignored by git.
 
 For LiveKit, Pipecat and Python, the key lives in the agent's or service's
-environment; follow the guide.
+environment; the guide shows where.
 
 In a coding agent, write the files into the project. In chat, give the user
 the files and commands to copy.
 
-## 3. Test
+## 3. Hand over the test
 
-The user creates an API key at https://lab.anam.ai/api-keys and puts it in
-their server's environment themselves. Run the app and check that the avatar
-appears and answers. Every session uses the organization's minutes.
+The generated app calls Anam's API with the user's own key: its server swaps
+`ANAM_API_KEY` for a session token, and every conversation it starts is a
+session on the organization's minutes. So the user runs the test, not you:
+
+1. They create an API key at https://lab.anam.ai/api-keys and put it in
+   their server's environment themselves.
+2. They start the app with the commands you gave and check that the avatar
+   appears and answers.
+
+Don't start the app, call its session-token endpoint or ask for the key.
 
 To try the persona before the app is ready, give them a share link.
 

@@ -55,9 +55,10 @@ The plugin holds configuration and instructions only: its manifest, one MCP
 server entry, the skills and this README. It has no hooks, scripts, commands
 or agents, so nothing from it runs on your computer.
 
-- **One server.** It connects only to Anam's MCP server at
+- **One server.** The plugin itself connects only to Anam's MCP server at
   `https://lab.anam.ai/mcp/claude`, run by Anam. It carries no API key or
-  other credential.
+  other credential. The services listed under "Anam's processors" below are
+  reached by Anam's server, not by the plugin or your computer.
 - **Sign-in.** You sign in with OAuth in your browser and choose one Anam
   organization and full or read-only access. Claude acts
   only in the Anam organization you chose, with the access you chose.
@@ -69,9 +70,28 @@ or agents, so nothing from it runs on your computer.
   to add, search terms, and questions about Anam's documentation. Claude
   receives what the tools return, such as personas, knowledge, share links,
   session transcripts and usage.
-- **What Anam's server reaches.** It fetches the public web pages and files
-  you ask to add as knowledge, and sends documentation searches to Mintlify,
-  which hosts Anam's docs.
+- **Anam's processors.** To answer some tool calls, Anam's server sends data
+  on to other services:
+  - Designing a persona from a description (the `anam_persona_from_brief`
+    tool, which `create-persona`, `tutor`, `interview-practice` and
+    `pick-voice-and-avatar` can use)
+    sends that description to Google's Gemini model, through Vercel's AI
+    Gateway, to write the persona's prompt and greeting.
+  - Documentation searches go to Mintlify, which hosts Anam's docs. Send
+    documentation terms, not customer content.
+  - Adding a web page or file as knowledge makes Anam's server fetch that
+    public URL.
+  - Each tool call is recorded in PostHog, Anam's product analytics: the
+    tool's name, whether it worked, how long it took, the size of the result,
+    the names (not the values) of the arguments, the persona's ID if there is
+    one, the kind of connection and access, and the connected app (its host,
+    a hash of its client ID and its name), with your Anam organization and
+    user IDs.
+- **Code for your app.** `add-to-website` writes code into your project or
+  hands it to you. That code is yours to run: its server calls Anam's API
+  with your own Anam API key to start sessions, and every session uses your
+  organization's minutes. Claude leaves starting it and creating the key to
+  you.
 - **Billing.** Knowledge documents count towards your plan's monthly upload
   allowance and conversations through share links use your organization's
   minutes, as they do in Anam Lab. The skills ask before that work.
