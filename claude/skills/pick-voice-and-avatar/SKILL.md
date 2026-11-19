@@ -52,8 +52,13 @@ each voice lists the persona's language.
 
 - **New persona**: use the `create-persona` skill with the chosen
   `avatarId` and `voiceId`.
-- **Existing persona**: find it with `anam_persona_list`, then call
-  `anam_persona_update` with `id`, `avatarId` and/or `voiceId`, and
+- **Existing persona**: find it with `anam_persona_list`, and call
+  `anam_persona_get` to check its purpose from its prompt (`brain`). If
+  it interviews or assesses real job candidates, makes or recommends
+  decisions about people, or gives medical, legal or financial advice,
+  this plugin doesn't change it: say so and point the user to Anam Lab.
+  Otherwise call `anam_persona_update` with `id`, `avatarId` and/or
+  `voiceId`, and
   `languageCode` if the language changes. A new voice resets the voice's
   generation settings, and a new avatar may reset the avatar model if the
   avatar doesn't support it. The change is published at once, and

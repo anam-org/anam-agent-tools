@@ -60,7 +60,8 @@ tool of its own for the new folder:
 
 1. Call `anam_persona_get` and note its `toolIds` and `updatedAt`.
    `toolIds` always lists every attached tool, even when the result
-   leaves some out of `tools`.
+   leaves some out of `tools`. Check its purpose again on this read,
+   as in step 1: someone may have changed the persona since.
 2. Create a knowledge tool with `anam_tool_create`: a `name` after the
    folder, a `description` of what the folder answers, `type`
    `SERVER_RAG`, and `config` with `documentFolderIds` holding only the
@@ -68,8 +69,8 @@ tool of its own for the new folder:
 3. Call `anam_persona_update` with the persona's `id`, `toolIds` set to
    every ID it had plus the new tool's, and `expectedUpdatedAt` set to
    the `updatedAt` you read. A 409 means the persona changed: call
-   `anam_persona_get` again and redo this step with the tool you
-   already created. The change is published at once and replaces any
+   `anam_persona_get` again, check its purpose again, and redo this
+   step with the tool you already created. The change is published at once and replaces any
    unpublished draft of the persona in Anam Lab: if someone is editing
    it there, ask them to publish or discard their draft first.
 

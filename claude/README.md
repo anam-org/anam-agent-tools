@@ -104,9 +104,13 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   share link, their ratings, comment and any email they enter go to Anam's
   team in Slack, with the persona, your organization and the link.
 - **Call quality checks.** After some conversations with a persona, Anam
-  sends parts of the transcript and the persona's settings to an OpenAI
-  model through Vercel's AI Gateway to score how the call went. This skips
-  organizations with zero data retention on.
+  sends the transcript (all of a short call, or parts of a longer one) and
+  the persona's settings to an OpenAI model through Vercel's AI Gateway to
+  score how the call went. Conversations with zero data retention on are
+  skipped; that setting can differ between personas.
+- **Email.** If you connect an app and don't use it for an hour, Anam may
+  email you through Resend with tips; the email names the app and the
+  organization.
 - **Voice deletion.** If you ask Claude to delete a custom voice, Anam deletes
   it from your account and then tries to delete it at its provider, Cartesia
   or ElevenLabs, once no other Anam voice uses it. That provider step covers
