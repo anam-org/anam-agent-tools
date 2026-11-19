@@ -23,8 +23,9 @@ Ask what the persona is for, in one question: for example a receptionist,
 support agent, sales assistant or a demo of Anam itself. This plugin
 doesn't set up personas that interview or assess real job candidates, or
 that make or recommend decisions about people, such as triaging patients
-or judging who qualifies for credit: if that's what the user wants, say
-so and point them to Anam Lab.
+or judging who qualifies for credit, or that give medical, legal or
+financial advice: if that's what the user wants, say so and point them
+to Anam Lab.
 Otherwise:
 
 1. Optionally call `anam_options` to suggest an avatar and voice. Use only IDs

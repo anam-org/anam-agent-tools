@@ -93,8 +93,9 @@ public, settle who may start one:
   `usageLimit` and `expiresInHours`. If the user still wants their own
   public endpoint, they need a limit of their own on it, such as rate
   limiting per visitor, and can cap each conversation with the persona's
-  `maxSessionLengthSeconds` (`anam_persona_update`). Write a public
-  endpoint only once they have said yes to one.
+  `maxSessionLengthSeconds` (`anam_persona_update`; it's published at
+  once and replaces any unpublished draft of the persona in Anam Lab).
+  Write a public endpoint only once they have said yes to one.
 
 ## 3. Hand over the test
 
@@ -112,7 +113,10 @@ session on the organization's minutes. So the user runs the test, not you:
 
 Don't start the app, call its session-token endpoint or ask for the key.
 
-To try the persona before the app is ready, give them a share link.
+To try the persona before the app is ready, give them an active share
+link from `anam_share_link_list` (`personaId`): one that hasn't expired
+or used up its sessions. If there isn't one, ask before creating one
+with `anam_share_link_create`, since a new link is public.
 
 ## Troubleshooting
 
