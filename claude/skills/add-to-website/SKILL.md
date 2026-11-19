@@ -38,8 +38,12 @@ or the chat.
      Lab before it goes live; don't change it from here.
 3. Choose with the user, simplest first:
    - **Share link**: a URL that opens the persona in a browser. Nothing to
-     build; link to it from a site or email. `anam_share_link_create`
-     (`expiresInHours`, `usageLimit`; 168 hours and 10 uses by default).
+     build; link to it from a site or email. First check
+     `primaryShareLink` from `anam_persona_get`: if it's turned off
+     (`enabled` false), someone stopped sharing the persona, so say so
+     and create a new link only if the user confirms they want it
+     shared again. Then `anam_share_link_create` (`expiresInHours`,
+     `usageLimit`; 168 hours and 10 uses by default).
    - **Website widget**: an embed with no server code, for sites built with
      tools such as WordPress, Shopify, Squarespace, Wix or Framer.
    - **Code**: the user's own app, with full control of the page.

@@ -30,8 +30,11 @@ Otherwise:
 
 1. Optionally call `anam_options` to suggest an avatar and voice. Use only IDs
    it returns.
-2. Call `anam_quickstart` with a name, the closest `template` (`anam-demo`
-   for a demo of Anam) and any chosen IDs. It also creates a share link
+2. If the role is a sales assistant, support agent, receptionist or a
+   demo of Anam, call `anam_quickstart` with a name, that `template`
+   (`sales`, `support`, `receptionist` or `anam-demo`) and any chosen
+   IDs. For any other role, use the `create-persona` skill with the
+   user's description instead. Quickstart also creates a share link
    unless `createShareLink` is false. Then call `anam_persona_get` for
    its prompt (`brain`), greeting (`initialMessage`) and `updatedAt`.
    The greeting should say it's an AI, and the prompt should have a

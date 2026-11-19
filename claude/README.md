@@ -127,8 +127,14 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   and expiry), when apps connect or disconnect, and when someone uses one of
   the connector's starter prompts (its name and which arguments were filled
   in).
-- **Billing.** For organizations billed through Metronome, a usage check
-  sends the customer and contract IDs to Metronome to look up the plan.
+- **Billing.** The minutes each conversation uses are reported to Anam's
+  billing provider, Stripe or Metronome, with your billing customer or
+  organization ID, the session's ID and its duration. For organizations
+  billed through Metronome, a usage check also sends the customer and
+  contract IDs to Metronome to look up the plan.
+- **Rate limits.** Upstash Redis briefly holds a visitor's IP address when
+  they start a share-link conversation (for a minute) or send feedback (for
+  an hour, with the share link), to limit abuse.
 
 If you connect your own language model or give a persona a webhook tool, Anam
 sends conversation content to the URL you chose, with the key or secret you
