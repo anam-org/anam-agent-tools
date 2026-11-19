@@ -37,9 +37,10 @@ creation, voice cloning and imports and meeting invites, so
 `avatar-from-photo`, `add-your-own-voice` and `send-to-meeting` need the full
 server URL above.
 
-The `claude/` folder is the Anam plugin for Claude: the other 11
-skills, adapted to that connector, and the connector itself
-(`https://lab.anam.ai/mcp/claude`).
+The `claude/` folder is the Anam plugin for Claude: seven core skills
+(`get-started`, `create-persona`, `pick-voice-and-avatar`, `add-knowledge`,
+`improve-persona`, `review-sessions` and `add-to-website`), adapted to that
+connector, and the connector itself (`https://lab.anam.ai/mcp/claude`).
 
 ## Install
 
@@ -71,9 +72,8 @@ connection, which signs in with OAuth:
 ```
 
 Then run `/mcp`, select the Anam server and sign in. The plugin connects to Anam's
-Claude connector, without the three skills above that it leaves out. For all
-the skills, install them with `npx skills add` and connect the full server, as
-below.
+Claude connector, with its seven core skills. For all the skills, install
+them with `npx skills add` and connect the full server, as below.
 
 ### Skills for Claude Code, Codex and other agents
 

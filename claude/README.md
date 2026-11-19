@@ -1,40 +1,37 @@
 # Anam for Claude
 
 [Anam](https://anam.ai) makes personas: AI avatars that people talk to over
-live video, for customer support, sales, reception, tutoring and interview
-practice. With this plugin, Claude sets personas up and looks after them in
-your Anam account. It writes their prompts, picks an avatar and a voice, adds
-knowledge, creates share links, reviews past conversations and helps you put
-a persona on your site.
+live video, for customer support, sales, reception and more. With this
+plugin, Claude sets personas up and looks after them in your Anam account. It
+writes their prompts, picks an avatar and a voice, adds knowledge, creates
+share links, reviews past conversations and helps you put a persona on your
+site.
 
 People talk to a persona in a browser, through its share link or your own
 site or app. Those conversations run on Anam, not in Claude.
 
-The plugin adds Anam's connector and 11 skills. Each skill tells Claude how to
+The plugin adds Anam's connector and 7 skills. Each skill tells Claude how to
 use the connector's tools for one task.
 
 ## Skills
 
-| Skill                   | Use it to                                                                                      |
-| ----------------------- | ---------------------------------------------------------------------------------------------- |
-| `get-started`           | Check the connection and make a first persona after connecting Anam.                           |
-| `create-persona`        | Create a persona from a short brief and get a share link to talk to it.                        |
-| `ai-receptionist`       | Set up a receptionist that greets visitors, answers from the business's facts and takes notes. |
-| `support-agent`         | Set up a support agent that answers from help articles and says how to reach the team.         |
-| `tutor`                 | Set up a tutor for a subject, level or language, for learners aged 16 and over.                |
-| `interview-practice`    | Set up a mock interviewer, or a screening interviewer whose interviews a person reviews.       |
-| `add-knowledge`         | Give a persona knowledge from web pages, public files or pasted text, and test it.             |
-| `pick-voice-and-avatar` | Find avatars and voices by language, accent and look, and apply them.                          |
-| `improve-persona`       | Find where callers got stuck in recent sessions and fix the prompt, greeting or knowledge.     |
-| `review-sessions`       | Report on a period's sessions: volume, errors, slow replies, failed tool calls and quotes.     |
-| `add-to-website`        | Put a persona on a site with a share link, the widget or code with a server-side token.        |
+| Skill                   | Use it to                                                                                       |
+| ----------------------- | ----------------------------------------------------------------------------------------------- |
+| `get-started`           | Check the connection and make a first persona after connecting Anam.                            |
+| `create-persona`        | Create a persona from a short brief and get a share link to talk to it.                         |
+| `add-knowledge`         | Give a persona a new knowledge folder from web pages, public files or pasted text, and test it. |
+| `pick-voice-and-avatar` | Find avatars and voices by language, accent and look, and apply them.                           |
+| `improve-persona`       | Find where callers got stuck in recent sessions and fix the prompt, greeting or knowledge.      |
+| `review-sessions`       | Report on a period's sessions: volume, errors, slow replies, failed tool calls and quotes.      |
+| `add-to-website`        | Put a persona on a site with a share link, the widget or code with a server-side token.         |
 
 Ask in your own words, such as "Make a receptionist for my dental clinic and
 give me a link to try it", or pick a skill.
 
 Not in this plugin: making an avatar from a photo, sending a persona into a
-video meeting, cloning or importing a voice, and starting a conversation from
-inside Claude. Use [Anam Lab](https://lab.anam.ai) for those.
+video meeting, cloning or importing a voice, removing knowledge from a
+persona, and starting a conversation from inside Claude. Use
+[Anam Lab](https://lab.anam.ai) for those.
 
 ## Install
 

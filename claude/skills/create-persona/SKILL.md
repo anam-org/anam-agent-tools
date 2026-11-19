@@ -28,15 +28,9 @@ Ask only for what's missing and changes the result, in one or two questions:
 - What it must and mustn't do, such as topics to avoid or when to hand over to
   a person.
 
-If the role is a receptionist, support agent, tutor or interview practice,
-the `ai-receptionist`, `support-agent`, `tutor` and `interview-practice`
-skills cover those in more detail.
-
-If the persona will interview real job candidates, for screening or
-hiring, don't create it here by any path below, whether a brief, the
-`interviewer` template or the user's own prompt. Use the
-`interview-practice` skill, which sets up what candidates are told and
-who makes the decision before any persona or link exists.
+This plugin doesn't set up personas that interview or assess real job
+candidates, by any path below. If that's what the user wants, say so and
+point them to Anam Lab.
 
 ## 3. Choose how to create it
 
@@ -49,8 +43,8 @@ Pick one path:
   `systemPrompt` and `initialMessage` from the result so they can change them.
   An organization can design 20 personas an hour.
 - **The role matches a template**: call `anam_quickstart` with `name` and
-  `template`: `sales`, `support`, `receptionist`, `tutor`, `interviewer`, or
-  `anam-demo` for a persona that presents Anam itself.
+  `template`: `sales`, `support`, `receptionist`, or `anam-demo` for a
+  persona that presents Anam itself.
 - **The user has a prompt already**: call `anam_quickstart` with `name` and
   `systemPrompt`.
 

@@ -17,11 +17,7 @@ or the chat.
 
 1. Call `anam_connection_info` to confirm the organization.
 2. Find the persona with `anam_persona_list`, or create one with the
-   `create-persona` skill. Note its ID. If it interviews real job
-   candidates, for screening or hiring, don't create it or put it in
-   front of candidates from this skill: use the `interview-practice`
-   skill, which sets up what candidates are told and who makes the
-   decision before any persona or link exists.
+   `create-persona` skill. Note its ID.
 3. Choose with the user, simplest first:
    - **Share link**: a URL that opens the persona in a browser. Nothing to
      build; link to it from a site or email. `anam_share_link_create`

@@ -20,13 +20,9 @@ read-only help.
 ## 2. Offer a first persona
 
 Ask what the persona is for, in one question: for example a receptionist,
-support agent, sales assistant, tutor, interviewer or a demo of Anam itself.
-
-If it will interview real job candidates, for screening or hiring, stop
-here and use the `interview-practice` skill. It sets up what candidates
-are told and who makes the decision before any persona or link exists.
-Don't create an interviewer or hand over a link for that from this skill.
-
+support agent, sales assistant or a demo of Anam itself. This plugin
+doesn't set up personas that interview or assess real job candidates: if
+that's what the user wants, say so and point them to Anam Lab.
 Otherwise:
 
 1. Optionally call `anam_options` to suggest an avatar and voice. Use only IDs
@@ -40,9 +36,7 @@ Otherwise:
 Sessions started from a share link use the organization's minutes, so say so
 when you hand over the link.
 
-For a fuller walkthrough, use the matching skill: `create-persona` for any
-brief, or `ai-receptionist`, `support-agent`, `tutor` or `interview-practice`
-for those roles.
+For a fuller walkthrough, use the `create-persona` skill.
 
 ## 3. Suggest next steps
 
