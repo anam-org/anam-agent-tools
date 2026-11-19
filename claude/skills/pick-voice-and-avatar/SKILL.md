@@ -60,13 +60,16 @@ each voice lists the persona's language.
   If the prompt ends with a `[cut: …]` marker, ask the user to confirm
   its purpose in Anam Lab first. Otherwise call `anam_persona_update`
   with `id`, `expectedUpdatedAt` set to the `updatedAt` you read (on a
-  409, read it again and check its purpose again), `avatarId` and/or
+  409, read it again, check its purpose again, and if its voice or
+  avatar changed meanwhile, ask the user again before retrying),
+  `avatarId` and/or
   `voiceId`, and
   `languageCode` if the language changes. A new voice resets the voice's
   generation settings, and a new avatar may reset the avatar model if the
   avatar doesn't support it. If the language changes, check
   `voiceDetectionOptions` in the `anam_persona_get` result: if it lists
-  speech-recognition languages (`sttLanguages`) without the new one,
+  speech-recognition language codes (`sttLanguages`, other than
+  `auto-detect`) without the new one,
   the persona would keep listening for the old language, so ask the
   user to update them in Anam Lab. The change is published at once, and
   replaces any unpublished draft of the persona in Anam Lab: if someone

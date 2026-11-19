@@ -107,13 +107,15 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   team in Slack, with the persona, your organization and the link.
 - **Call quality checks.** After some conversations with a persona, Anam
   sends the transcript (all of a short call, or parts of a longer one), the
-  persona's settings and any failed tool calls (the tool's name and its error
-  text) to an OpenAI model through Vercel's AI Gateway to
+  persona's settings and its tool calls (each tool's name, IDs, status and
+  timing, and the error text of failed ones) to an OpenAI model through Vercel's AI Gateway to
   score how the call went. Conversations with zero data retention on are
   skipped; that setting can differ between personas.
 - **Email.** If you connect an app and don't use it for an hour, Anam may
-  email you through Resend with tips; the email names the app and the
-  organization.
+  email you through Resend with tips. Resend gets your address, your first
+  name if known, the app and organization names, and an unsubscribe link
+  carrying your user ID. To tell whether you've used the app, Upstash Redis
+  keeps a marker of the connection's first tool call for two days.
 - **Voice deletion.** If you ask Claude to delete a custom voice, Anam deletes
   it from your account and then tries to delete it at its provider, Cartesia
   or ElevenLabs, once no other Anam voice uses it. That provider step covers
