@@ -10,7 +10,8 @@ Base every change on what callers actually said. Propose changes first and
 apply them only when the user agrees. This plugin doesn't assess real job
 candidates: don't rank, score or recommend people from their
 conversations, and don't change a persona's purpose to interviewing real
-candidates or making decisions about people.
+candidates, making decisions about people, or giving medical, legal or
+financial advice.
 
 ## 1. Read the persona
 
@@ -87,10 +88,16 @@ replaces any unpublished draft of the persona in Anam Lab: if someone is
 editing it there, ask them to publish or discard their draft first.
 
 Then give the user the question that failed before, and an active
-share link for the persona from `anam_share_link_list` (`personaId`):
-one that hasn't expired or used up its sessions. If there isn't one,
-ask before creating one with `anam_share_link_create`, since a new link
-is public, or suggest trying it in Anam Lab.
+share link for the persona. Call `anam_persona_get`: if its
+`primaryShareLink` is turned off (`enabled` false), the organization
+has stopped sharing the persona, so don't make a new link and suggest
+trying it in Anam Lab. If it's on and its entry in `shareLinks` (the
+one with `isPrimary`) hasn't expired or used up its `usageLimit`, the
+link is https://lab.anam.ai/share/ followed by its `token`. Otherwise
+use a link from `anam_share_link_list` (`personaId`) with `type`
+`LINK` that is enabled, unexpired and not used up. If there isn't one,
+ask before creating one with `anam_share_link_create`, since a new
+link is public.
 
 ## Rules
 

@@ -17,7 +17,19 @@ or the chat.
 
 1. Call `anam_connection_info` to confirm the organization.
 2. Find the persona with `anam_persona_list`, or create one with the
-   `create-persona` skill. Note its ID.
+   `create-persona` skill. Note its ID. Before putting an existing
+   persona in front of the public, call `anam_persona_get` and check:
+   - its purpose, from its prompt (`brain`): this plugin doesn't put
+     personas live that interview or assess real job candidates, make
+     or recommend decisions about people, or give medical, legal or
+     financial advice. If it does any of these, say so and point the
+     user to Anam Lab.
+   - that it says it's an AI: its greeting (`initialMessage`) should
+     say so, so visitors hear it on every route (share link, widget,
+     SDK, LiveKit or Pipecat). If it doesn't, propose a greeting that
+     does and, once the user agrees, set it with `anam_persona_update`
+     (`id`, `initialMessage` and `expectedUpdatedAt` set to the
+     persona's `updatedAt`).
 3. Choose with the user, simplest first:
    - **Share link**: a URL that opens the persona in a browser. Nothing to
      build; link to it from a site or email. `anam_share_link_create`
@@ -30,15 +42,17 @@ or the chat.
 
 Give the user these steps: open the persona in Anam Lab, select Deploy, then
 Website widget, add the site's origin under Allowed domains, select Publish,
-and paste the embed code into the page. For where a site builder takes
+and paste the embed code into the page. Publish releases every unpublished
+change to the persona, not only the widget settings, so anyone with
+unfinished changes in Lab's Build page finishes or discards them first.
+For where a site builder takes
 custom code, call `anam_integration_guide` with `stack: "widget"` and
 `personaId`; it links each builder's help page.
 
 ## 2b. Code
 
-1. Settle the stack. In a coding agent, read it from the project
-   (`package.json`, `requirements.txt` and so on). In chat, ask the
-   user; don't read files they upload.
+1. Ask the user which stack the site or app uses. Don't read their
+   project or uploaded files to work it out.
 2. For Next.js, Express or FastAPI, call `anam_scaffold` with `stack`
    (`nextjs`, `express` or `fastapi`) and `personaId`. It returns
    ready-to-run files: a server route that swaps `ANAM_API_KEY` for a session
@@ -114,9 +128,16 @@ session on the organization's minutes. So the user runs the test, not you:
 Don't start the app, call its session-token endpoint or ask for the key.
 
 To try the persona before the app is ready, give them an active share
-link from `anam_share_link_list` (`personaId`): one that hasn't expired
-or used up its sessions. If there isn't one, ask before creating one
-with `anam_share_link_create`, since a new link is public.
+link for the persona. Call `anam_persona_get`: if its
+`primaryShareLink` is turned off (`enabled` false), the organization
+has stopped sharing the persona, so don't make a new link and suggest
+trying it in Anam Lab. If it's on and its entry in `shareLinks` (the
+one with `isPrimary`) hasn't expired or used up its `usageLimit`, the
+link is https://lab.anam.ai/share/ followed by its `token`. Otherwise
+use a link from `anam_share_link_list` (`personaId`) with `type`
+`LINK` that is enabled, unexpired and not used up. If there isn't one,
+ask before creating one with `anam_share_link_create`, since a new
+link is public.
 
 ## Troubleshooting
 

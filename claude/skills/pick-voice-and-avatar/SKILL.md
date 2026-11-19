@@ -61,10 +61,16 @@ each voice lists the persona's language.
   is editing it there, ask them to publish or discard their draft first.
 
 Then, to hear and see the result, give the user an active share link
-for the persona from `anam_share_link_list` (`personaId`): one that
-hasn't expired or used up its sessions. If there isn't one, ask before
-creating one with `anam_share_link_create`, since a new link is public,
-or suggest trying it in Anam Lab.
+for the persona. Call `anam_persona_get`: if its `primaryShareLink` is
+turned off (`enabled` false), the organization has stopped sharing the
+persona, so don't make a new link and suggest trying it in Anam Lab.
+If it's on and its entry in `shareLinks` (the one with `isPrimary`)
+hasn't expired or used up its `usageLimit`, the link is
+https://lab.anam.ai/share/ followed by its `token`. Otherwise use a
+link from `anam_share_link_list` (`personaId`) with `type` `LINK` that
+is enabled, unexpired and not used up. If there isn't one, ask before
+creating one with `anam_share_link_create`, since a new link is
+public.
 
 ## Rules
 

@@ -22,9 +22,12 @@ enough. Then settle:
 ## 2. Get the overview
 
 1. `anam_session_insights` with `from` and `to` (ISO 8601 date-times, at
-   most 31 days apart) and optionally `personaId`. It rolls sessions up by
-   date and persona: counts, durations, exit statuses, latency and failure
-   rates, with `findings`. `CLOSED_BY_ENGINE` includes a normal end of call.
+   most 31 days apart) and optionally `personaId`. It returns one roll-up
+   for that range and persona: the session count (`sessions.total`),
+   durations and exit statuses from the newest sessions it read
+   (`sessions.read`), latency and failure rates, and `findings`. To
+   compare personas, call it once per persona with its `personaId`.
+   `CLOSED_BY_ENGINE` includes a normal end of call.
 2. `anam_session_stats` for the same range when the user wants numbers:
    latency percentiles by stage, interruption and error rates, tool call
    outcomes and the slowest turns. It reads the 1,000 newest sessions with
