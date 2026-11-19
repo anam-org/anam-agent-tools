@@ -19,7 +19,10 @@ financial advice.
    only, you can still review and propose.
 2. Find the persona with `anam_persona_list`, then call `anam_persona_get`.
    Note its system prompt (`brain`), greeting (`initialMessage`), knowledge
-   folders, tools and `updatedAt`.
+   folders, tools and `updatedAt`. If it interviews or assesses real job
+   candidates, makes or recommends decisions about people, or gives
+   medical, legal or financial advice, this plugin doesn't work on it:
+   say so and point the user to Anam Lab.
 
 ## 2. See how calls went
 
@@ -92,10 +95,10 @@ share link for the persona. Call `anam_persona_get`: if its
 `primaryShareLink` is turned off (`enabled` false), the organization
 has stopped sharing the persona, so don't make a new link and suggest
 trying it in Anam Lab. If it's on and its entry in `shareLinks` (the
-one with `isPrimary`) hasn't expired or used up its `usageLimit`, the
+one with `isPrimary`) has at least 30 minutes left and hasn't used up its `usageLimit`, the
 link is https://lab.anam.ai/share/ followed by its `token`. Otherwise
 use a link from `anam_share_link_list` (`personaId`) with `type`
-`LINK` that is enabled, unexpired and not used up. If there isn't one,
+`LINK` that is enabled, has at least 30 minutes left and isn't used up. If there isn't one,
 ask before creating one with `anam_share_link_create`, since a new
 link is public.
 

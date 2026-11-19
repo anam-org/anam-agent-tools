@@ -81,10 +81,9 @@ Tools, and the Build page's Knowledge panel may show only one of them.
    `primaryShareLink` is turned off (`enabled` false), the
    organization has stopped sharing the persona, so don't make a new
    link and suggest trying it in Anam Lab. If it's on and its entry in
-   `shareLinks` (the one with `isPrimary`) hasn't expired or used up
-   its `usageLimit`, the link is https://lab.anam.ai/share/ followed
+   `shareLinks` (the one with `isPrimary`) has at least 30 minutes left and hasn't used up its `usageLimit`, the link is https://lab.anam.ai/share/ followed
    by its `token`. Otherwise use a link from `anam_share_link_list`
-   (`personaId`) with `type` `LINK` that is enabled, unexpired and not
+   (`personaId`) with `type` `LINK` that is enabled, has at least 30 minutes left and isn't
    used up. If there isn't one, ask before creating one with
    `anam_share_link_create`, since a new link is public. They open
    the link in a browser, allow the microphone and ask.

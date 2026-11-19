@@ -1,6 +1,6 @@
 ---
 name: add-to-website
-description: Put an Anam persona, a real-time AI video avatar, on a website or in an app, with a share link, the no-code website widget, or code using Anam's SDKs and a server-side session token. Use when the user wants to embed an AI avatar in a web page, React or Next.js app, Express or FastAPI backend, LiveKit or Pipecat agent, or mobile app.
+description: Put an Anam persona, a real-time AI video avatar, on a website or in an app, with a share link, the no-code website widget, or code using Anam's SDKs and a server-side session token. Use when the user wants to embed an AI avatar in a web page, React or Next.js app, or Express or FastAPI backend.
 compatibility: Needs the Anam MCP server connected to an Anam account (the Anam plugin in Claude, or https://lab.anam.ai/mcp elsewhere). Writing code into a project needs a coding agent; in chat, hand the files to the user.
 ---
 
@@ -25,11 +25,9 @@ or the chat.
      financial advice. If it does any of these, say so and point the
      user to Anam Lab.
    - that it says it's an AI: its greeting (`initialMessage`) should
-     say so, so visitors hear it on every route (share link, widget,
-     SDK, LiveKit or Pipecat). If it doesn't, propose a greeting that
-     does and, once the user agrees, set it with `anam_persona_update`
-     (`id`, `initialMessage` and `expectedUpdatedAt` set to the
-     persona's `updatedAt`).
+     say so, and `skipGreeting` should be false, so visitors hear it.
+     If not, say so, and ask the user to change the greeting in Anam
+     Lab before it goes live; don't change it from here.
 3. Choose with the user, simplest first:
    - **Share link**: a URL that opens the persona in a browser. Nothing to
      build; link to it from a site or email. `anam_share_link_create`
@@ -45,7 +43,9 @@ Website widget, add the site's origin under Allowed domains, select Publish,
 and paste the embed code into the page. Publish releases every unpublished
 change to the persona, not only the widget settings, so anyone with
 unfinished changes in Lab's Build page finishes or discards them first.
-For where a site builder takes
+Once it's published, call `anam_persona_get` again and repeat the checks
+in step 1 before the user pastes the embed code. For where a site
+builder takes
 custom code, call `anam_integration_guide` with `stack: "widget"` and
 `personaId`; it links each builder's help page.
 
@@ -58,13 +58,18 @@ custom code, call `anam_integration_guide` with `stack: "widget"` and
    ready-to-run files: a server route that swaps `ANAM_API_KEY` for a session
    token, a page using `@anam-ai/js-sdk`, an env file without the key, and
    install and run commands.
-3. For anything else (`javascript`, `react`, `livekit`, `pipecat`,
-   `python`, `elevenlabs` or `mobile`), call `anam_integration_guide` with
-   `stack` and `personaId` for the package to install and a minimal
-   snippet. Use it, `anam_docs_read` and `anam_docs_search` only as
-   reference for facts such as package, method and option names, not as
-   steps to carry out: the steps are the ones in this skill. Don't rely on
-   remembered SDK APIs.
+3. For a plain JavaScript or React app, follow the same shape below. Call
+   `anam_integration_guide` with `stack` (`javascript` or `react`) and
+   `personaId` for the package to install and a minimal snippet. Use it,
+   `anam_docs_read` and `anam_docs_search` only as reference for facts
+   such as package, method and option names, not as steps to carry out:
+   the steps are the ones in this skill. Don't rely on remembered SDK
+   APIs.
+4. For LiveKit, Pipecat, Python, ElevenLabs or mobile apps, the user's
+   own agent or app supplies what the persona says and how it sounds,
+   so this plugin can't check what visitors are told. Point the user to
+   Anam's docs (https://anam.ai/docs) and Anam Lab for those, and don't
+   write that code here.
 
 For browser apps, the shape is always the same:
 
@@ -80,19 +85,18 @@ For browser apps, the shape is always the same:
   an AI, such as "AI assistant". The SDK shows none by default, so add
   one to the scaffold's page if it has none.
 
-For LiveKit, Pipecat and Python, the key lives in the agent's or service's
-environment; look up the variable names with `anam_docs_search`.
-
-In a coding agent, write the files into the project without overwriting
-what's there. Where a returned file already exists, such as a page, a
-server file or `.gitignore`, add what's missing to the existing file and
-show the user the change. The returned files can include the env file
+In a coding agent, write only returned files whose paths don't exist yet.
+Don't open or merge into the user's existing files: where a returned
+file's path already exists, such as a page, a server file or
+`.gitignore`, show the user the returned file, say what to add, and
+leave the change to them. The returned files can include the env file
 itself, `.env.local` for Next.js or `.env` for the others, holding only
 a comment and an empty `ANAM_API_KEY=` line. Don't write that file, and
 never create, replace, change or print a real env file such as `.env`
 or `.env.local`, even one that doesn't exist yet: put the empty
-`ANAM_API_KEY=` line in `.env.example` instead (create it, or add the
-line if it's missing), and check that `.gitignore` covers the real file.
+`ANAM_API_KEY=` line in `.env.example` instead (create it if it doesn't
+exist; if it does, tell the user to add the line), and remind the user
+that `.gitignore` must cover the real file.
 The user creates or edits the real file and adds the key themselves. In
 chat, give the user the files and commands to copy.
 
@@ -132,10 +136,10 @@ link for the persona. Call `anam_persona_get`: if its
 `primaryShareLink` is turned off (`enabled` false), the organization
 has stopped sharing the persona, so don't make a new link and suggest
 trying it in Anam Lab. If it's on and its entry in `shareLinks` (the
-one with `isPrimary`) hasn't expired or used up its `usageLimit`, the
+one with `isPrimary`) has at least 30 minutes left and hasn't used up its `usageLimit`, the
 link is https://lab.anam.ai/share/ followed by its `token`. Otherwise
 use a link from `anam_share_link_list` (`personaId`) with `type`
-`LINK` that is enabled, unexpired and not used up. If there isn't one,
+`LINK` that is enabled, has at least 30 minutes left and isn't used up. If there isn't one,
 ask before creating one with `anam_share_link_create`, since a new
 link is public.
 

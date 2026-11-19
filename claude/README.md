@@ -100,6 +100,10 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   for three days. If a check flags a prompt, part of it and the check's
   written reason may be shared with Anam's team in Slack for review, with
   your organization's name and the session's ID.
+- **Call quality checks.** After some conversations with a persona, Anam
+  sends parts of the transcript and the persona's settings to an OpenAI
+  model through Vercel's AI Gateway to score how the call went. This skips
+  organizations with zero data retention on.
 - **Voice deletion.** If you ask Claude to delete a custom voice, Anam deletes
   it from your account and then tries to delete it at its provider, Cartesia
   or ElevenLabs, once no other Anam voice uses it. That provider step covers
