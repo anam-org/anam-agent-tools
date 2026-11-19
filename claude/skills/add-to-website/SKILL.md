@@ -27,8 +27,9 @@ or the chat.
      you haven't seen all of it: ask the user to review it in Anam Lab
      before it goes live.
    - that Anam runs the conversation: if `enableAudioPassthrough` is
-     true, the persona has no `llmId`, or its LLM (`anam_llm_get`) has
-     `llmFormat` `none` (Disable LLM in Lab), the user's own app
+     true, its LLM (`anam_llm_get` with its `llmId`) has `llmFormat`
+     `none` (Disable LLM in Lab), or it has no `llmId` and its
+     `brainType` is `CUSTOMER_CLIENT_V1`, the user's own app
      supplies the replies or audio, so the scaffold and snippets here
      won't answer; point the user to Anam's docs.
    - that it says it's an AI: its greeting (`initialMessage`) should
@@ -48,10 +49,13 @@ or the chat.
 Give the user these steps: open the persona in Anam Lab, select Deploy, then
 Website widget, add the site's origin under Allowed domains, select Publish,
 and paste the embed code into the page. Publish releases every unpublished
-change to the persona, not only the widget settings, so anyone with
-unfinished changes in Lab's Build page finishes or discards them first.
-Once it's published, call `anam_persona_get` again and repeat the checks
-in step 1 before the user pastes the embed code. For where a site
+change to the persona, not only the widget settings, and existing share
+links use it at once. So before selecting Publish, the user checks the
+draft on Lab's Build page: it must still pass the checks in step 1 (its
+purpose, and a greeting that says it's an AI), and unfinished changes
+are finished or discarded. Once it's published, call `anam_persona_get`
+again and repeat the checks in step 1 before the user pastes the embed
+code. For where a site
 builder takes
 custom code, call `anam_integration_guide` with `stack: "widget"` and
 `personaId`; it links each builder's help page.
@@ -97,7 +101,9 @@ For Next.js, ask whether the project keeps its App Router in `app/` or
 writing a new `app/` beside an existing `src/app/` hides the site's
 pages. Also ask for a URL path the site doesn't use yet for the page
 (the scaffold uses `/anam`) and for the token route, and put the files
-there, since two pages for one path break the build. In a coding agent, write only returned files whose paths don't
+there, since two pages for one path break the build. If you move the
+token route, change the URL the returned page fetches to match, and give
+the user the page's new URL. In a coding agent, write only returned files whose paths don't
 exist yet.
 Don't open or merge into the user's existing files: where a returned
 file's path already exists, such as a page, a server file or
@@ -161,8 +167,10 @@ link is public.
 
 ## Troubleshooting
 
-- 401 from the session-token call: the key is wrong, revoked or missing from
-  the server's environment.
+- 401 from the app's own token route: the sign-in placeholder is still
+  refusing every request; the user wires in their sign-in check. A 500
+  usually means `ANAM_API_KEY` is missing from the server's environment,
+  and a 502 that Anam rejected the key (wrong or revoked).
 - No video: check the `<video>` element has `autoplay` and `playsinline`, and
   that the page asked for microphone access.
 - Widget doesn't load: check the site's origin is in the widget's Allowed

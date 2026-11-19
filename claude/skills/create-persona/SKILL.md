@@ -98,9 +98,12 @@ should have a line telling the persona it is an AI and to say so when
 asked, such as "You are an AI. If anyone asks, say so; never claim to
 be a person." Fix what's missing with `anam_persona_update`: `id`, the
 new `initialMessage`, the whole `systemPrompt` with the line added, and
-`expectedUpdatedAt` set to the `updatedAt` you read. If the prompt ends
-with a `[cut: …]` marker or the result says it was trimmed, don't send
-it back: tell the user to add the line in Anam Lab.
+`expectedUpdatedAt` set to the `updatedAt` you read. If the persona waits
+for the caller to speak first (`skipGreeting` true), the greeting never
+plays, so the prompt must also tell it to say it's an AI in its first
+reply. If the prompt ends with a `[cut: …]` marker or the result says
+it was trimmed, don't send it back: tell the user to add the line in
+Anam Lab.
 
 Changes are published at once, so the share link uses them straight away.
 

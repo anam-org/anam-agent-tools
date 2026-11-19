@@ -97,15 +97,18 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   Gemini is unavailable, through Vercel's AI Gateway. Anam's request tracing
   in Grafana records these checks, prompts included, and Upstash Redis keeps
   each result (a hash of the prompt, the decision, its reason and severity)
-  for three days. If a check flags a prompt, part of it and the check's
+  for three days. (Upstash Redis also keeps, for up to 400 days, a note that
+  the post-connect email below was sent, with your user ID and the
+  connection's ID.) If a check flags a prompt, part of it and the check's
   written reason may be shared with Anam's team in Slack for review, with
   your organization's name and the session's ID.
 - **Visitor feedback.** If someone gives feedback after a conversation on a
   share link, their ratings, comment and any email they enter go to Anam's
   team in Slack, with the persona, your organization and the link.
 - **Call quality checks.** After some conversations with a persona, Anam
-  sends the transcript (all of a short call, or parts of a longer one) and
-  the persona's settings to an OpenAI model through Vercel's AI Gateway to
+  sends the transcript (all of a short call, or parts of a longer one), the
+  persona's settings and any failed tool calls (the tool's name and its error
+  text) to an OpenAI model through Vercel's AI Gateway to
   score how the call went. Conversations with zero data retention on are
   skipped; that setting can differ between personas.
 - **Email.** If you connect an app and don't use it for an hour, Anam may
@@ -121,7 +124,11 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   the call and the ID of the persona it acted on, with your Anam organization
   ID and, where available, your user ID. It also receives events when
   personas and share links are created (for a share link, its usage limit
-  and expiry) and when apps connect or disconnect.
+  and expiry), when apps connect or disconnect, and when someone uses one of
+  the connector's starter prompts (its name and which arguments were filled
+  in).
+- **Billing.** For organizations billed through Metronome, a usage check
+  sends the customer and contract IDs to Metronome to look up the plan.
 
 If you connect your own language model or give a persona a webhook tool, Anam
 sends conversation content to the URL you chose, with the key or secret you

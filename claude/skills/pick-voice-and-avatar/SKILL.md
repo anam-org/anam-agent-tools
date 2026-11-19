@@ -57,7 +57,10 @@ each voice lists the persona's language.
   it interviews or assesses real job candidates, makes or recommends
   decisions about people, or gives medical, legal or financial advice,
   this plugin doesn't change it: say so and point the user to Anam Lab.
-  Otherwise call `anam_persona_update` with `id`, `avatarId` and/or
+  If the prompt ends with a `[cut: …]` marker, ask the user to confirm
+  its purpose in Anam Lab first. Otherwise call `anam_persona_update`
+  with `id`, `expectedUpdatedAt` set to the `updatedAt` you read (on a
+  409, read it again and check its purpose again), `avatarId` and/or
   `voiceId`, and
   `languageCode` if the language changes. A new voice resets the voice's
   generation settings, and a new avatar may reset the avatar model if the
