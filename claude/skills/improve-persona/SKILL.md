@@ -22,7 +22,9 @@ financial advice.
    folders, tools and `updatedAt`. If it interviews or assesses real job
    candidates, makes or recommends decisions about people, or gives
    medical, legal or financial advice, this plugin doesn't work on it:
-   say so and point the user to Anam Lab.
+   say so and point the user to Anam Lab. If the prompt ends with a
+   `[cut: …]` marker, ask the user to confirm its purpose in Anam Lab
+   first.
 
 ## 2. See how calls went
 
@@ -61,12 +63,15 @@ session date, and the fix:
 
 - **Prompt**: the exact sentences to add or replace, in the prompt's existing
   sections. Keep any `# STYLE CUES` section as it is.
-- **Greeting**: the new `initialMessage`.
+- **Greeting**: the new `initialMessage`. It must still say the persona
+  is an AI, such as "Hi, I'm Riley, the clinic's AI assistant."
+  Visitors may hear no other disclosure.
 - **Knowledge**: what to add, with the `add-knowledge` skill.
 - **Voice**: a different `voiceId` from `anam_options`, or its speed or
   stability as `voiceGenerationOptions`. Send those together with the
   persona's current `voiceId`, so they're merged into its saved voice
-  options rather than replacing them.
+  options rather than replacing them. Not every voice model takes them:
+  if the update is refused, say so and offer a different voice instead.
 - **Tools**: for a failing webhook tool, say which calls failed and the
   errors they got, and send the user to the tool's page in Anam Lab to
   fix its URL, parameters or secret. Don't change or copy tools from

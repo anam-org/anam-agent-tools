@@ -23,7 +23,12 @@ or the chat.
      personas live that interview or assess real job candidates, make
      or recommend decisions about people, or give medical, legal or
      financial advice. If it does any of these, say so and point the
-     user to Anam Lab.
+     user to Anam Lab. If the prompt ends with a `[cut: …]` marker,
+     you haven't seen all of it: ask the user to review it in Anam Lab
+     before it goes live.
+   - that Anam runs the conversation: if `enableAudioPassthrough` is
+     true, the user's own app supplies the audio, so the scaffold and
+     snippets here won't work; point the user to Anam's docs.
    - that it says it's an AI: its greeting (`initialMessage`) should
      say so, and `skipGreeting` should be false, so visitors hear it.
      If not, say so, and ask the user to change the greeting in Anam
@@ -85,7 +90,11 @@ For browser apps, the shape is always the same:
   an AI, such as "AI assistant". The SDK shows none by default, so add
   one to the scaffold's page if it has none.
 
-In a coding agent, write only returned files whose paths don't exist yet.
+For Next.js, ask whether the project keeps its App Router in `app/` or
+`src/app/`, and put the returned `app/...` files under that folder;
+writing a new `app/` beside an existing `src/app/` hides the site's
+pages. In a coding agent, write only returned files whose paths don't
+exist yet.
 Don't open or merge into the user's existing files: where a returned
 file's path already exists, such as a page, a server file or
 `.gitignore`, show the user the returned file, say what to add, and
@@ -104,8 +113,9 @@ Anyone who can call the session-token endpoint can start conversations
 on the organization's minutes. Before the user deploys it anywhere
 public, settle who may start one:
 
-- In an app with sign-in, put the endpoint behind the app's existing
-  sign-in check and say where you added it.
+- In an app with sign-in, the endpoint goes behind the app's existing
+  sign-in check. Ask the user how their app checks sign-in, mark the
+  place in the new route, and leave wiring in their check to them.
 - For a public page with no sign-in, offer the website widget, which
   runs only on the domains the user allows, or a share link with a
   `usageLimit` and `expiresInHours`. If the user still wants their own

@@ -100,6 +100,9 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   for three days. If a check flags a prompt, part of it and the check's
   written reason may be shared with Anam's team in Slack for review, with
   your organization's name and the session's ID.
+- **Visitor feedback.** If someone gives feedback after a conversation on a
+  share link, their ratings, comment and any email they enter go to Anam's
+  team in Slack, with the persona, your organization and the link.
 - **Call quality checks.** After some conversations with a persona, Anam
   sends parts of the transcript and the persona's settings to an OpenAI
   model through Vercel's AI Gateway to score how the call went. This skips

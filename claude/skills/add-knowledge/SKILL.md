@@ -14,6 +14,13 @@ personas can share a folder.
 1. Call `anam_connection_info`. Adding documents needs full access.
 2. Find the persona with `anam_persona_list` (`search` matches names). If
    there's no persona yet, create one first with the `create-persona` skill.
+   Before adding anything, call `anam_persona_get` and check its purpose
+   from its prompt (`brain`). If it interviews or assesses real job
+   candidates, makes or recommends decisions about people, or gives
+   medical, legal or financial advice, this plugin doesn't add knowledge
+   to it: say so and point the user to Anam Lab. If the prompt ends with
+   a `[cut: …]` marker, ask the user to confirm its purpose in Anam Lab
+   first.
 3. Settle what to add:
    - A public web page or file: its `https` URL. Web pages are saved as
      text; PDF, DOCX, TXT, MD, CSV and JSON files are kept as they are, up to
