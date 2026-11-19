@@ -62,7 +62,9 @@ tool of its own for the new folder:
    every ID it had plus the new tool's, and `expectedUpdatedAt` set to
    the `updatedAt` you read. A 409 means the persona changed: call
    `anam_persona_get` again and redo this step with the tool you
-   already created.
+   already created. The change is published at once and replaces any
+   unpublished draft of the persona in Anam Lab: if someone is editing
+   it there, ask them to publish or discard their draft first.
 
 Don't add the folder to a knowledge tool the persona already has, and
 don't change any existing tool. If the persona already had a knowledge
@@ -74,10 +76,12 @@ Tools, and the Build page's Knowledge panel may show only one of them.
 1. Pick a question the documents answer and call
    `anam_knowledge_folder_search` with the folder ID and that question. Show
    the user the passage it finds.
-2. Give the user that question to ask the persona. Find its share link with
-   `anam_share_link_list` (`personaId`), or create one with
-   `anam_share_link_create`, and give them the `url`. They open it in a
-   browser, allow the microphone and ask.
+2. Give the user that question to ask the persona, and an active share
+   link for it from `anam_share_link_list` (`personaId`): one that
+   hasn't expired or used up its sessions. If there isn't one, ask
+   before creating one with `anam_share_link_create`, since a new link
+   is public, or suggest trying it in Anam Lab. They open the link's
+   `url` in a browser, allow the microphone and ask.
 
 ## Other changes
 

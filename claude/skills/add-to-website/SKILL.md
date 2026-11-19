@@ -36,8 +36,9 @@ custom code, call `anam_integration_guide` with `stack: "widget"` and
 
 ## 2b. Code
 
-1. Work out the stack from the user's project (`package.json`,
-   `requirements.txt` and so on) or ask.
+1. Settle the stack. In a coding agent, read it from the project
+   (`package.json`, `requirements.txt` and so on). In chat, ask the
+   user; don't read files they upload.
 2. For Next.js, Express or FastAPI, call `anam_scaffold` with `stack`
    (`nextjs`, `express` or `fastapi`) and `personaId`. It returns
    ready-to-run files: a server route that swaps `ANAM_API_KEY` for a session
@@ -60,7 +61,10 @@ For browser apps, the shape is always the same:
   with `@anam-ai/js-sdk`, streams to a `<video>` element with `autoplay` and
   `playsinline`, and stops streaming when the page or component goes away;
 - `ANAM_API_KEY` in `.env.example` without a value, and real `.env` files
-  ignored by git.
+  ignored by git;
+- a visible label next to the video telling visitors they're talking to
+  an AI, such as "AI assistant". The SDK shows none by default, so add
+  one to the scaffold's page if it has none.
 
 For LiveKit, Pipecat and Python, the key lives in the agent's or service's
 environment; look up the variable names with `anam_docs_search`.

@@ -9,7 +9,8 @@ compatibility: Needs the Anam MCP server connected to an Anam account (the Anam 
 Base every change on what callers actually said. Propose changes first and
 apply them only when the user agrees. This plugin doesn't assess real job
 candidates: don't rank, score or recommend people from their
-conversations.
+conversations, and don't change a persona's purpose to interviewing real
+candidates or making decisions about people.
 
 ## 1. Read the persona
 
@@ -79,9 +80,17 @@ with the current `voiceId`), and `expectedUpdatedAt` set to the
 overwritten. A 409 means it changed: read it again and redo the edit. The
 update is published at once.
 
-Then give the user a way to test: their share link from
-`anam_share_link_list` (`personaId`), or a new one from
-`anam_share_link_create`, and the question that failed before.
+Send the whole new `systemPrompt` only if the one you read is complete:
+if it ends with a `[cut: …]` marker or the result says it was trimmed,
+give the user the change to make in Anam Lab instead. The update also
+replaces any unpublished draft of the persona in Anam Lab: if someone is
+editing it there, ask them to publish or discard their draft first.
+
+Then give the user the question that failed before, and an active
+share link for the persona from `anam_share_link_list` (`personaId`):
+one that hasn't expired or used up its sessions. If there isn't one,
+ask before creating one with `anam_share_link_create`, since a new link
+is public, or suggest trying it in Anam Lab.
 
 ## Rules
 

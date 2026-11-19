@@ -21,19 +21,24 @@ read-only help.
 
 Ask what the persona is for, in one question: for example a receptionist,
 support agent, sales assistant or a demo of Anam itself. This plugin
-doesn't set up personas that interview or assess real job candidates: if
-that's what the user wants, say so and point them to Anam Lab.
+doesn't set up personas that interview or assess real job candidates, or
+that make or recommend decisions about people, such as triaging patients
+or judging who qualifies for credit: if that's what the user wants, say
+so and point them to Anam Lab.
 Otherwise:
 
 1. Optionally call `anam_options` to suggest an avatar and voice. Use only IDs
    it returns.
 2. Call `anam_quickstart` with a name, the closest `template` (`anam-demo`
    for a demo of Anam) and any chosen IDs. It also creates a share link
-   unless `createShareLink` is false. Then read the persona's prompt
-   (`brain` from `anam_persona_get`). If it has no line telling the
-   persona it is an AI and to say so when asked, add one with
-   `anam_persona_update` (`id` and the whole `systemPrompt` with the
-   line added).
+   unless `createShareLink` is false. Then call `anam_persona_get` for
+   its prompt (`brain`), greeting (`initialMessage`) and `updatedAt`.
+   The greeting should say it's an AI, and the prompt should have a
+   line telling the persona it is an AI and to say so when asked. Fix
+   what's missing with `anam_persona_update` (`id`, `initialMessage`,
+   the whole `systemPrompt` with the line added, and
+   `expectedUpdatedAt`). If the prompt ends with a `[cut: …]` marker,
+   don't send it back: tell the user to add the line in Anam Lab.
 3. Give the user the share link URL from the result so they can talk to the
    persona in their browser, and the persona's name, avatar and voice.
 

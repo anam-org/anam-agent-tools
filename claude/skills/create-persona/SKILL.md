@@ -29,8 +29,12 @@ Ask only for what's missing and changes the result, in one or two questions:
   a person.
 
 This plugin doesn't set up personas that interview or assess real job
-candidates, by any path below. If that's what the user wants, say so and
-point them to Anam Lab.
+candidates, or that make or recommend decisions about people, such as
+triaging patients by their symptoms or judging who qualifies for credit,
+housing or benefits, by any path below. A persona it sets up can give
+general information, take details and hand over to a person, but not
+medical, legal or financial advice. If the user wants more than that,
+say so and point them to Anam Lab.
 
 ## 3. Choose how to create it
 
@@ -86,13 +90,17 @@ call `anam_persona_update` with the persona's `id` and:
 - `languageCode`: the language it hears, such as `es`. Pick a voice that
   speaks it (`anam_options` with `language`).
 
-Whichever path you used, check that the persona says it's an AI. Read
-its prompt: `systemPrompt` in the `anam_persona_from_brief` result, or
-`brain` from `anam_persona_get` after `anam_quickstart`. If it has no
-line telling the persona it is an AI and to say so when asked, add one,
-such as "You are an AI. If anyone asks, say so; never claim to be a
-person.", with `anam_persona_update` (`id` and the whole `systemPrompt`
-with the line added).
+Whichever path you used, check that the persona says it's an AI. Call
+`anam_persona_get` and read its prompt (`brain`), its greeting
+(`initialMessage`) and `updatedAt`. The greeting should say it's an AI,
+such as "Hi, I'm Riley, the clinic's AI receptionist.", and the prompt
+should have a line telling the persona it is an AI and to say so when
+asked, such as "You are an AI. If anyone asks, say so; never claim to
+be a person." Fix what's missing with `anam_persona_update`: `id`, the
+new `initialMessage`, the whole `systemPrompt` with the line added, and
+`expectedUpdatedAt` set to the `updatedAt` you read. If the prompt ends
+with a `[cut: …]` marker or the result says it was trimmed, don't send
+it back: tell the user to add the line in Anam Lab.
 
 Changes are published at once, so the share link uses them straight away.
 

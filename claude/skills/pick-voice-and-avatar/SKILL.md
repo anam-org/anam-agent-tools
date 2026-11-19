@@ -50,17 +50,21 @@ each voice lists the persona's language.
 
 ## 4. Apply the choice
 
-- **New persona**: pass `avatarId` and `voiceId` to `anam_quickstart` or
-  `anam_persona_from_brief` (see `create-persona`).
+- **New persona**: use the `create-persona` skill with the chosen
+  `avatarId` and `voiceId`.
 - **Existing persona**: find it with `anam_persona_list`, then call
   `anam_persona_update` with `id`, `avatarId` and/or `voiceId`, and
   `languageCode` if the language changes. A new voice resets the voice's
   generation settings, and a new avatar may reset the avatar model if the
-  avatar doesn't support it. The change is published at once.
+  avatar doesn't support it. The change is published at once, and
+  replaces any unpublished draft of the persona in Anam Lab: if someone
+  is editing it there, ask them to publish or discard their draft first.
 
-Then give the user a share link to hear and see the result: from
-`anam_share_link_list` (`personaId`), or a new one from
-`anam_share_link_create`.
+Then, to hear and see the result, give the user an active share link
+for the persona from `anam_share_link_list` (`personaId`): one that
+hasn't expired or used up its sessions. If there isn't one, ask before
+creating one with `anam_share_link_create`, since a new link is public,
+or suggest trying it in Anam Lab.
 
 ## Rules
 

@@ -94,10 +94,12 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   without your account details.
 - **Acceptable-use checks.** After a persona has had conversations, Anam can
   check its system prompt with Google Gemini, or with Anthropic's Claude when
-  Gemini is unavailable, through Vercel's AI Gateway. If a check flags a
-  prompt, part of it and the check's written reason may be shared with Anam's
-  team in Slack for review, with your organization's name and the session's
-  ID.
+  Gemini is unavailable, through Vercel's AI Gateway. Anam's request tracing
+  in Grafana records these checks, prompts included, and Upstash Redis keeps
+  each result (a hash of the prompt, the decision, its reason and severity)
+  for three days. If a check flags a prompt, part of it and the check's
+  written reason may be shared with Anam's team in Slack for review, with
+  your organization's name and the session's ID.
 - **Voice deletion.** If you ask Claude to delete a custom voice, Anam deletes
   it from your account and then tries to delete it at its provider, Cartesia
   or ElevenLabs, once no other Anam voice uses it. That provider step covers
