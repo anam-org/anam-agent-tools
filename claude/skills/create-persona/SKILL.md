@@ -108,8 +108,10 @@ Anam Lab.
 Changes are published at once, so the share link uses them straight away.
 
 Use `anam_persona_create` only when the user needs a setting neither tool
-above takes; it creates no share link, so follow it with
-`anam_share_link_create`.
+above takes. It doesn't choose an avatar or a voice, and a persona
+without both can't start a call, so pick `avatarId` and `voiceId` with
+`anam_options` first and pass both. It creates no share link, so follow
+it with `anam_share_link_create`.
 
 ## 5. Hand it over
 

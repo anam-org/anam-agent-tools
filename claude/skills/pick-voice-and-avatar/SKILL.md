@@ -64,7 +64,11 @@ each voice lists the persona's language.
   `voiceId`, and
   `languageCode` if the language changes. A new voice resets the voice's
   generation settings, and a new avatar may reset the avatar model if the
-  avatar doesn't support it. The change is published at once, and
+  avatar doesn't support it. If the language changes, check
+  `voiceDetectionOptions` in the `anam_persona_get` result: if it lists
+  speech-recognition languages (`sttLanguages`) without the new one,
+  the persona would keep listening for the old language, so ask the
+  user to update them in Anam Lab. The change is published at once, and
   replaces any unpublished draft of the persona in Anam Lab: if someone
   is editing it there, ask them to publish or discard their draft first.
 

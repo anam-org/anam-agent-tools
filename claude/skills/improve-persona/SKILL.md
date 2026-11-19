@@ -86,7 +86,9 @@ Call `anam_persona_update` with the persona `id`, only the changed fields
 (such as `systemPrompt`, `initialMessage`, or `voiceGenerationOptions`
 with the current `voiceId`), and `expectedUpdatedAt` set to the
 `updatedAt` you read, so a change someone else made in the meantime isn't
-overwritten. A 409 means it changed: read it again and redo the edit. The
+overwritten. A 409 means it changed: read it again, check its purpose
+again, and if the fields you're changing were changed too, show the user
+the revised edit and get their yes before retrying. The
 update is published at once.
 
 Send the whole new `systemPrompt` only if the one you read is complete:

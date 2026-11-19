@@ -30,8 +30,10 @@ enough. Then settle:
    `CLOSED_BY_ENGINE` includes a normal end of call.
 2. `anam_session_stats` for the same range when the user wants numbers:
    latency percentiles by stage, interruption and error rates, tool call
-   outcomes and the slowest turns. It reads the 1,000 newest sessions with
-   analytics (`truncated` says there were more). LiveKit and audio-passthrough
+   outcomes and the slowest turns. It takes up to the 1,000 newest
+   sessions and reads the reports they have: `sessionsWithReports` says
+   how many the figures cover, and `truncated` that there were more
+   sessions. LiveKit and audio-passthrough
    sessions are counted but have no analytics.
 3. `anam_usage_get` if they ask about minutes used or plan limits.
 

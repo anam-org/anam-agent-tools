@@ -126,10 +126,14 @@ Anam's server, not the plugin or your computer, sends some of that data on:
   personas and share links are created (for a share link, its usage limit
   and expiry), when apps connect or disconnect, and when someone uses one of
   the connector's starter prompts (its name and which arguments were filled
-  in).
+  in). When someone starts a conversation with a persona, PostHog receives
+  your organization ID and the share link's ID, or the session's and API
+  key's IDs for an app.
 - **Billing.** The minutes each conversation uses are reported to Anam's
-  billing provider, Stripe or Metronome, with your billing customer or
-  organization ID, the session's ID and its duration. For organizations
+  billing providers, Stripe, Metronome or both, with your billing customer or
+  organization ID, the session's ID and its duration; Metronome also gets
+  the plan, the engine type and, for a session started with an API key, the
+  key's ID. For organizations
   billed through Metronome, a usage check also sends the customer and
   contract IDs to Metronome to look up the plan.
 - **Rate limits.** Upstash Redis briefly holds a visitor's IP address when
