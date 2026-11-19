@@ -72,8 +72,9 @@ connection, which signs in with OAuth:
 ```
 
 Then run `/mcp`, select the Anam server and sign in. The plugin connects to Anam's
-Claude connector, with its seven core skills. For all the skills, install
-them with `npx skills add` and connect the full server, as below.
+Claude connector, with its seven core skills. Install either the plugin or
+the skills below in Claude Code, not both: the plugin's skills are adapted
+copies, and having both loads two versions of the same skill.
 
 ### Skills for Claude Code, Codex and other agents
 

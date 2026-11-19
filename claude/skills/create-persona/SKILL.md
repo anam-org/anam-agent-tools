@@ -86,6 +86,14 @@ call `anam_persona_update` with the persona's `id` and:
 - `languageCode`: the language it hears, such as `es`. Pick a voice that
   speaks it (`anam_options` with `language`).
 
+Whichever path you used, check that the persona says it's an AI. Read
+its prompt: `systemPrompt` in the `anam_persona_from_brief` result, or
+`brain` from `anam_persona_get` after `anam_quickstart`. If it has no
+line telling the persona it is an AI and to say so when asked, add one,
+such as "You are an AI. If anyone asks, say so; never claim to be a
+person.", with `anam_persona_update` (`id` and the whole `systemPrompt`
+with the line added).
+
 Changes are published at once, so the share link uses them straight away.
 
 Use `anam_persona_create` only when the user needs a setting neither tool

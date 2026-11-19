@@ -25,8 +25,12 @@ use the connector's tools for one task.
 | `review-sessions`       | Report on a period's sessions: volume, errors, slow replies, failed tool calls and quotes.      |
 | `add-to-website`        | Put a persona on a site with a share link, the widget or code with a server-side token.         |
 
-Ask in your own words, such as "Make a receptionist for my dental clinic and
-give me a link to try it", or pick a skill.
+Ask in your own words, or pick a skill. For example:
+
+- "Make a receptionist for my dental clinic and give me a link to try it."
+- "Add the FAQ below to a new knowledge folder for my receptionist."
+- "Which of my personas had the most sessions last week, and what did people
+  ask about most?"
 
 Not in this plugin: making an avatar from a photo, sending a persona into a
 video meeting, cloning or importing a voice, removing knowledge from a
@@ -77,7 +81,8 @@ Anam's server, not the plugin or your computer, sends some of that data on:
 
 - **Persona descriptions.** When Claude asks Anam to write a persona from a
   description, the description goes to Google Gemini through Vercel's AI
-  Gateway.
+  Gateway. Anam's request tracing in Grafana records that request, including
+  the description and the prompt Gemini writes, for troubleshooting.
 - **Knowledge.** Documents you add are stored in Cloudflare R2 and indexed
   for search in Upstash Vector. To build the index, Anam sends their text to
   an embedding model: OpenAI's on Microsoft Azure, or Voyage AI's hosted by
@@ -90,18 +95,20 @@ Anam's server, not the plugin or your computer, sends some of that data on:
 - **Acceptable-use checks.** After a persona has had conversations, Anam can
   check its system prompt with Google Gemini, or with Anthropic's Claude when
   Gemini is unavailable, through Vercel's AI Gateway. If a check flags a
-  prompt, part of it may be shared with Anam's team in Slack for review, with
-  your organization's name and the session's ID.
+  prompt, part of it and the check's written reason may be shared with Anam's
+  team in Slack for review, with your organization's name and the session's
+  ID.
 - **Voice deletion.** If you ask Claude to delete a custom voice, Anam deletes
   it from your account and then tries to delete it at its provider, Cartesia
   or ElevenLabs, once no other Anam voice uses it. That provider step covers
   eligible voices only and can fail.
 - **Usage analytics.** PostHog receives a record of each tool call: the tool,
-  whether it worked, how long it took, the names of the arguments sent but
-  not their values, and the ID of the persona it acted on, with your Anam
-  organization ID and, where available, your user ID. It also receives events
-  when personas and share links are created and when apps connect or
-  disconnect.
+  whether it worked, how long it took, the size of the result, the names of
+  the arguments sent but not their values, the access level, which app made
+  the call and the ID of the persona it acted on, with your Anam organization
+  ID and, where available, your user ID. It also receives events when
+  personas and share links are created (for a share link, its usage limit
+  and expiry) and when apps connect or disconnect.
 
 If you connect your own language model or give a persona a webhook tool, Anam
 sends conversation content to the URL you chose, with the key or secret you

@@ -7,7 +7,9 @@ compatibility: Needs the Anam MCP server connected to an Anam account (the Anam 
 # Improve a persona from its conversations
 
 Base every change on what callers actually said. Propose changes first and
-apply them only when the user agrees.
+apply them only when the user agrees. This plugin doesn't assess real job
+candidates: don't rank, score or recommend people from their
+conversations.
 
 ## 1. Read the persona
 
@@ -56,26 +58,23 @@ session date, and the fix:
   sections. Keep any `# STYLE CUES` section as it is.
 - **Greeting**: the new `initialMessage`.
 - **Knowledge**: what to add, with the `add-knowledge` skill.
-- **Voice**: its speed or stability, as `voiceGenerationOptions` in
-  `anam_persona_update`, or a different `voiceId` from `anam_options`.
-- **Tools**: a failing webhook tool's description, URL or parameters. Read
-  the tool with `anam_tool_get` first. A `usageCount` above 1 means other
-  personas call the same tool, and `anam_tool_update` would change it for
-  all of them: say how many, and change it only with the user's yes for
-  all of them. To fix it for this persona alone, create a corrected copy
-  with `anam_tool_create` and swap its ID for the old one in the persona's
-  `toolIds` (`anam_persona_update`, sending every other ID unchanged). A
-  secret, such as an API key in a header, shows as •••• and can't be
-  copied: the user enters it on the new tool's page in Anam Lab, not in
-  the chat.
+- **Voice**: a different `voiceId` from `anam_options`, or its speed or
+  stability as `voiceGenerationOptions`. Send those together with the
+  persona's current `voiceId`, so they're merged into its saved voice
+  options rather than replacing them.
+- **Tools**: for a failing webhook tool, say which calls failed and the
+  errors they got, and send the user to the tool's page in Anam Lab to
+  fix its URL, parameters or secret. Don't change or copy tools from
+  here: several personas can share a tool, and its secrets can't be
+  read back.
 - **Outside this connection**: slow replies that come from the user's own
   LLM or webhook endpoint; say what to look at.
 
 ## 5. Apply on the user's yes
 
 Call `anam_persona_update` with the persona `id`, only the changed fields
-(such as `systemPrompt`, `initialMessage` or `voiceGenerationOptions`),
-and `expectedUpdatedAt` set to the
+(such as `systemPrompt`, `initialMessage`, or `voiceGenerationOptions`
+with the current `voiceId`), and `expectedUpdatedAt` set to the
 `updatedAt` you read, so a change someone else made in the meantime isn't
 overwritten. A 409 means it changed: read it again and redo the edit. The
 update is published at once.

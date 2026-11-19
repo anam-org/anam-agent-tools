@@ -65,7 +65,9 @@ tool of its own for the new folder:
    already created.
 
 Don't add the folder to a knowledge tool the persona already has, and
-don't change any existing tool.
+don't change any existing tool. If the persona already had a knowledge
+tool, tell the user it now has two: in Anam Lab both are listed under
+Tools, and the Build page's Knowledge panel may show only one of them.
 
 ## 5. Test it
 

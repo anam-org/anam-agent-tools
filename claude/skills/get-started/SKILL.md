@@ -29,7 +29,11 @@ Otherwise:
    it returns.
 2. Call `anam_quickstart` with a name, the closest `template` (`anam-demo`
    for a demo of Anam) and any chosen IDs. It also creates a share link
-   unless `createShareLink` is false.
+   unless `createShareLink` is false. Then read the persona's prompt
+   (`brain` from `anam_persona_get`). If it has no line telling the
+   persona it is an AI and to say so when asked, add one with
+   `anam_persona_update` (`id` and the whole `systemPrompt` with the
+   line added).
 3. Give the user the share link URL from the result so they can talk to the
    persona in their browser, and the persona's name, avatar and voice.
 

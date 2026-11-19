@@ -73,3 +73,6 @@ the `improve-persona` skill to make the prompt and greeting changes, or
 - Recording links from `anam_session_recording_get` are temporary; fetch one
   only when the user asks for a recording.
 - Don't delete sessions or stop live ones unless the user asks.
+- This plugin doesn't assess real job candidates: don't rank, score or
+  recommend people from their conversations. Say so and point the user
+  to Anam Lab.
