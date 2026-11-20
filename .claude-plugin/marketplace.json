@@ -1,0 +1,16 @@
+{
+  "name": "anam-agent-tools",
+  "description": "Anam's plugin for Claude: set up and manage Anam personas, AI avatars that people talk to over live video.",
+  "owner": {
+    "name": "Anam",
+    "email": "support@anam.ai",
+    "url": "https://anam.ai"
+  },
+  "plugins": [
+    {
+      "name": "anam",
+      "source": "./claude",
+      "category": "productivity"
+    }
+  ]
+}

@@ -51,7 +51,9 @@ Pick one path:
 Both tools use Anam's recommended avatar, voice and language model unless you
 pass `avatarId`, `voiceId` or `llmId`. To choose them first, call
 `anam_options` (see the `pick-voice-and-avatar` skill) and use only IDs it
-returns. Both also create a share link unless `createShareLink` is false.
+returns. Leave `llmId` out unless the user asks for a particular language
+model: Anam's default is fast and suits most personas. Both also create a
+share link unless `createShareLink` is false.
 
 When you write a `systemPrompt` yourself, follow Anam's prompting guide (find
 it with `anam_docs_search` for "prompting guide", then read it with

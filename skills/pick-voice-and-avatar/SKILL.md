@@ -34,10 +34,13 @@ Call `anam_options` with what you know:
 - `include` limits the lists, such as `["voices"]`.
 
 Each list names Anam's recommended pick when it matches the filters
-(`recommended`). If a search returns nothing, drop
-a filter and try again. To page through more, use `anam_voice_list` or
+(`recommended`). To page through more, use `anam_voice_list` or
 `anam_avatar_list`, which also take `search`; `anam_voice_get` and
 `anam_avatar_get` show one in full.
+
+If nothing fits, drop a filter and try again. If no voice fits even then,
+offer the user their own voice: they can record or upload a sample, or bring
+one from their ElevenLabs account (see "Their own face or voice").
 
 ## 3. Recommend
 
@@ -62,12 +65,17 @@ Then give the user a share link to hear and see the result: from
 ## Their own face or voice
 
 - A face from a photo: use the `avatar-from-photo` skill.
-- A cloned voice: `anam_voice_clone` makes a voice from a public recording
-  (WAV, MP3, WebM or OGG, up to 10MB; 10 to 15 seconds of one person
-  speaking clearly is best). It needs a plan with voice cloning and the
-  speaker's consent, and it's paid work: tell the user, and call it only
-  once they agree. Each call creates another voice, so check
-  `anam_voice_list` before trying again.
+- Their own voice: use the `add-your-own-voice` skill. `anam_voice_add`
+  returns a Lab link where they record or upload a sample, or import a voice
+  from their ElevenLabs account, so audio and keys stay out of the chat;
+  `anam_voice_add_status` then returns the new `voiceId`.
+- A voice ID or an ElevenLabs share link they already have:
+  `anam_voice_import` (`provider` and `providerVoiceId`, or `shareUrl`).
+- A recording at a public URL: `anam_voice_clone` (WAV, MP3, WebM or OGG,
+  up to 10MB; 10 to 15 seconds of one person speaking clearly is best).
+  Cloning needs a plan with voice cloning and the speaker's consent, and
+  it's paid work: tell the user, and call it only once they agree. Each call
+  creates another voice, so check `anam_voice_list` before trying again.
 
 ## Rules
 
