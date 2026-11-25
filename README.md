@@ -68,7 +68,7 @@ connection, which signs in with OAuth:
 
 ```text
 /plugin marketplace add anam-org/anam-agent-tools
-/plugin install anam@anam-agent-tools
+/plugin install anam-live-avatars@anam-agent-tools
 ```
 
 Then run `/mcp`, select the Anam server and sign in. The plugin connects to Anam's

@@ -41,7 +41,7 @@ persona, and starting a conversation from inside Claude. Use
 
 You need an Anam account. Sign up at [lab.anam.ai](https://lab.anam.ai).
 
-From Anthropic's directory, add Anam, then connect the Anam connector on the
+From Anthropic's directory, add Anam Live Avatars, then connect the Anam connector on the
 plugin's Connectors tab. On Team and Enterprise plans an Owner adds the
 connector for the organization first.
 
@@ -49,7 +49,7 @@ In Claude Code, add this repository as a marketplace and install the plugin:
 
 ```text
 /plugin marketplace add anam-org/anam-agent-tools
-/plugin install anam@anam-agent-tools
+/plugin install anam-live-avatars@anam-agent-tools
 ```
 
 Then run `/mcp`, select the Anam server and sign in.
@@ -81,8 +81,9 @@ Anam's server, not the plugin or your computer, sends some of that data on:
 
 - **Persona descriptions.** When Claude asks Anam to write a persona from a
   description, the description goes to Google Gemini through Vercel's AI
-  Gateway. Anam's request tracing in Grafana records that request, including
-  the description and the prompt Gemini writes, for troubleshooting.
+  Gateway. Anam's request tracing in Grafana records that request, without the
+  description or the prompt Gemini writes. Traces from before 20 November
+  2026 kept both; they age out by about 20 December 2026.
 - **Knowledge.** Documents you add are stored in Cloudflare R2 and indexed
   for search in Upstash Vector. To build the index, Anam sends their text to
   an embedding model: OpenAI's on Microsoft Azure, or Voyage AI's hosted by
