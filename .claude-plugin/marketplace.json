@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "anam",
+      "name": "anam-live-avatars",
       "source": "./claude",
       "category": "productivity"
     }
