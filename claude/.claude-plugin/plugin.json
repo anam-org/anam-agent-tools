@@ -1,10 +1,10 @@
 {
   "name": "anam-live-avatars",
   "displayName": "Anam Live Avatars",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Build Anam personas (real-time AI avatars that talk with people over video), give them knowledge, add them to your website or app and improve them from their conversations, through Anam's connector.",
   "author": {
-    "name": "Anam",
+    "name": "Anam Live Avatars",
     "email": "support@anam.ai",
     "url": "https://anam.ai"
   },
